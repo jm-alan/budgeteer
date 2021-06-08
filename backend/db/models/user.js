@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     get info () {
-      const { id, username, email } = this;
-      return { id, username, email };
+      const { id, firstName, username, email } = this;
+      return { id, firstName, username, email };
     }
 
     static async LogIn ({ identification, password }) {
@@ -37,12 +37,18 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate (models) {
-      [models.Account, models.Item].forEach(model => {
+      [models.Personal, models.Item].forEach(model => {
         User.hasMany(model, { foreignKey: 'ownerId' });
+      });
+      User.belongsToMany(models.Commune, {
+        through: models.RosterEntry,
+        foreignKey: 'userId',
+        otherKey: 'communeId'
       });
     }
   }
   User.init({
+    firstName: DataTypes.STRING,
     username: {
       type: DataTypes.STRING,
       validate: {
