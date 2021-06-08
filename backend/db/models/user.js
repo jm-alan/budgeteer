@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     get info () {
-      const { username, email } = this;
-      return { username, email };
+      const { id, username, email } = this;
+      return { id, username, email };
     }
 
     static async LogIn ({ identification, password }) {
