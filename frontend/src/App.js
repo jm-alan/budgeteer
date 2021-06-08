@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Modal from './components/Modal';
 import CsrfFetch from './store/csrf';
-import { LoadSession, RestoreUser } from './store/session';
+import { RestoreUser } from './store/session';
 
 import './index.css';
 
