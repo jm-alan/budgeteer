@@ -37,7 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate (models) {
-      User.hasMany(models.Account, { foreignKey: 'ownerId' });
+      [models.Account, models.Item].forEach(model => {
+        User.hasMany(model, { foreignKey: 'ownerId' });
+      });
     }
   }
   User.init({
