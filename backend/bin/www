@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+const { ports } = require('../config');
+
+const apps = require('../app');
+const db = require('../db/models');
+
+const init = async (port, app) => {
+  try {
+    await db.sequelize.authenticate();
+    app.listen(port, () => console.log(`App:${port} UP successful.`));
+  } catch (err) {
+    console.log('App failed to instantiate.');
+    console.error(err);
+    console.error(err.toString());
+  }
+};
+
+for (const port of ports) init(port, apps[port]);
