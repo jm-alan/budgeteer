@@ -6,6 +6,7 @@ import LogInForm from './LogIn';
 import Error from './Error';
 import { SignUp } from '../../store/session';
 import { SetCurrentModal } from '../../store/modal';
+import { HideModal } from '../../store/UX';
 
 export default function SignUpForm () {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function SignUpForm () {
         email,
         password
       }))
+        .then(() => dispatch(HideModal()))
         .catch(err => setError(err));
     }
   };
