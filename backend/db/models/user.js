@@ -63,7 +63,6 @@ module.exports = (sequelize, DataTypes) => {
         set (val) {
           if (!val.match(/[a-zA-Z0-9_]{8,30}/)) {
             const errors = [];
-            if (val.length < 8) errors.push(new ValidationErrorItem('Username must be at least 8 characters'));
             if (val.length > 30) errors.push(new ValidationErrorItem('Username may not exceed 30 characters'));
             if (val.match(/[^a-zA-Z0-9_]/g)) errors.push('Username may only contain the letters A-Z, the numbers 0-9, or an underscore');
             throw new ValidationError('Invalid username', errors);
