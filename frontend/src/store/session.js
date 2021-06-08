@@ -10,6 +10,10 @@ const setSession = (user = null) => ({
   user
 });
 
+export const LoadSession = () => ({
+  type: 'session/LOAD'
+});
+
 export const RestoreUser = () => async dispatch => {
   const { user } = await csrfetch.get('/api/session/');
   dispatch(setSession(user));
