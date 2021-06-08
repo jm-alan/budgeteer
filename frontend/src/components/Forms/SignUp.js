@@ -13,6 +13,7 @@ export default function SignUpForm () {
   const user = useSelector(state => state.session.user);
 
   const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -24,6 +25,7 @@ export default function SignUpForm () {
     e.preventDefault();
     if (password === confirmPassword) {
       dispatch(SignUp({
+        firstName,
         username,
         email,
         password
@@ -39,6 +41,14 @@ export default function SignUpForm () {
     <>
       <Error error={error} />
       <AuthForm onSubmit={onSignup}>
+        <input
+          className='form-input signup firstname'
+          placeholder='First Name'
+          type='text'
+          required
+          value={firstName}
+          onChange={({ target: { value } }) => setFirstName(value)}
+        />
         <input
           className='form-input signup username'
           placeholder='Username'

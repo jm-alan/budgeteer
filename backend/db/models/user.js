@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       return potentialUser && potentialUser.validatePass(password);
     }
 
-    static async SignUp ({ username, email, password }) {
-      const newUser = new User({ username, email, password });
+    static async SignUp ({ firstName, username, email, password }) {
+      const newUser = new User({ firstName, username, email, password });
       return (await newUser.save()).info;
     }
 
@@ -52,17 +52,14 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       validate: {
-        is: {
-          args: ['[a-zA-Z0-9_]{,30}'],
-          msg: 'Username must be less than 30 characters, and may only contain the letters A-Z, the numbers 0-9, or an underscore.'
-        },
         not: {
           args: 'email',
           msg: 'Username cannot be an email'
         },
         set (val) {
-          if (!val.match(/[a-zA-Z0-9_]{8,30}/)) {
+          if (!val.match(/[a-zA-Z0-9_]{5,30}/)) {
             const errors = [];
+            if (val.length < 5) errors.push(new ValidationErrorItem('Username must be at least 5 characters'));
             if (val.length > 30) errors.push(new ValidationErrorItem('Username may not exceed 30 characters'));
             if (val.match(/[^a-zA-Z0-9_]/g)) errors.push('Username may only contain the letters A-Z, the numbers 0-9, or an underscore');
             throw new ValidationError('Invalid username', errors);
