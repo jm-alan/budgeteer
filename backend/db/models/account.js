@@ -3,19 +3,25 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Account extends Model {
+  class Personal extends Model {
     static associate (models) {
-      Account.belongsTo(models.User, { foreignKey: 'ownerId' });
-      Account.hasMany(models.Item, { foreignKey: 'accountId' });
+      Personal.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Personal.hasMany(models.Item, {
+        foreignKey: 'accountId',
+        constraints: false,
+        scope: {
+          accountType: 'Personal'
+        }
+      });
     }
   }
-  Account.init({
+  Personal.init({
     name: DataTypes.STRING,
     balance: DataTypes.DECIMAL,
     ownerId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Account'
+    modelName: 'Personal'
   });
-  return Account;
+  return Personal;
 };
