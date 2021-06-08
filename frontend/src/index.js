@@ -8,8 +8,15 @@ import Modal from './components/Modal';
 import configureStore from './store';
 
 import './index.css';
+import CsrfFetch from './store/csrf';
 
 const store = configureStore();
+
+if (process.env.NODE_ENV !== 'production') {
+  window.store = store;
+  window.dispatch = store.dispatch;
+  window.csrfetch = new CsrfFetch();
+}
 
 function Root () {
   return (
