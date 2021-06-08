@@ -20,7 +20,6 @@ export default function App () {
 
   useEffect(() => {
     dispatch(RestoreUser());
-    dispatch(LoadSession());
   }, [dispatch]);
 
   return loaded && (

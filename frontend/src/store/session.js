@@ -42,7 +42,7 @@ export default function reducer (
 ) {
   switch (type) {
     case USER:
-      return { ...state, user };
+      return { ...state, user, loaded: true };
     case LOAD:
       return { ...state, loaded: true };
     default:
