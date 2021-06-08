@@ -14,8 +14,10 @@ export class RequestError extends Error {
 export class ExtendedValidationError {
   title: string;
   errors: string[];
+  status: number
 
   constructor (title: string) {
     this.title = title;
+    this.status = 401;
   }
 }
