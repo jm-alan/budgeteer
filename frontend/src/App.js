@@ -13,6 +13,7 @@ export default function App () {
   const dispatch = useDispatch();
 
   const loaded = useSelector(state => state.session.loaded);
+  const user = useSelector(state => state.session.user);
 
   useEffect(() => {
     CsrfFetch.restoreCSRF();
@@ -28,7 +29,8 @@ export default function App () {
       <NavBar />
       <Switch>
         <Route exact path='/'>
-          <h1>Home!</h1>
+          {user && <h1>Hi {`${user.firstName}`}!</h1>}
+          {!user && <h1>Welcome! Please either log in or sign up to use this app.</h1>}
         </Route>
       </Switch>
     </>
