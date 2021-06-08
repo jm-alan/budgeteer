@@ -1,9 +1,8 @@
 import './index.css';
 
-export default function AuthForm ({ children, onSubmit }) {
-  return (
-    <form className='auth-form' onSubmit={onSubmit}>
-      {children}
-    </form>
-  );
-}
+// eslint-disable-next-line import/no-anonymous-default-export
+export default ({ children, onSubmit }) => (
+  <form className='auth-form' onSubmit={onSubmit}>
+    {children}
+  </form>
+);

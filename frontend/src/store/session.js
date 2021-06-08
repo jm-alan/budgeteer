@@ -1,4 +1,5 @@
-import csrfetch from './csrf';
+import CsrfFetch from './csrf';
+const csrfetch = new CsrfFetch();
 
 const USER = 'session/USER';
 
@@ -10,38 +11,28 @@ const setSession = (user = null) => ({
 });
 
 export const RestoreUser = () => async dispatch => {
-  const res = await csrfetch('/api/session/');
-  const { user } = res.data;
+  const { user } = await csrfetch.get('/api/session/');
   dispatch(setSession(user));
 };
 
 export const LogIn = credentials => async dispatch => {
-  const res = await csrfetch('/api/session/', {
-    method: 'POST',
-    body: JSON.stringify(credentials)
-  });
-  const { user } = res.data;
+  const { user } = await csrfetch.post('/api/session/', credentials);
   dispatch(setSession(user));
   if (!user) throw new Error('Invalid username or password');
 };
 
 export const SignUp = newUser => async dispatch => {
-  const res = await csrfetch('/api/users/', {
-    method: 'POST',
-    body: JSON.stringify(newUser)
-  });
-  const { user } = res.data;
+  const { user } = await csrfetch.post('/api/users/', newUser);
   dispatch(setSession(user));
 };
 
 export const LogOut = () => async dispatch => {
-  await csrfetch('/api/session/', {
-    method: 'DELETE'
-  });
+  await csrfetch.delete('/api/session/');
   dispatch(setSession());
 };
 
 export default function reducer (
+  // eslint-disable-next-line default-param-last
   state = { user: null, loaded: false },
   { type, user }
 ) {

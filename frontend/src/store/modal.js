@@ -10,6 +10,7 @@ export const SetCurrentModal = current => ({
 });
 
 export default function reducer (
+  // eslint-disable-next-line default-param-last
   state = { current: null, after: null },
   { type, current, after }
 ) {
