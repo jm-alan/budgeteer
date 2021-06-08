@@ -53,8 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         is: {
-          args: ['[a-zA-Z0-9_]{8,30}'],
-          msg: 'Username must be between 8 and 30 characters, and may only contain the letters A-Z, the numbers 0-9, or an underscore.'
+          args: ['[a-zA-Z0-9_]{,30}'],
+          msg: 'Username must be less than 30 characters, and may only contain the letters A-Z, the numbers 0-9, or an underscore.'
         },
         not: {
           args: 'email',
