@@ -55,9 +55,10 @@ export default function appBuilder (apps: AppObject, port: number | string) {
   });
 
   app.use((err: Error | RequestError | ExtendedValidationError, _req, res, _next) => {
-    if (err instanceof RequestError) res.status(err.status);
+    if (err instanceof RequestError || err instanceof ExtendedValidationError) res.status(err.status);
     else res.status(500);
     console.error(err);
+    console.error(err.toString());
     res.json({
       title: err instanceof RequestError
         ? err.title
