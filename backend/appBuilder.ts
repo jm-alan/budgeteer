@@ -19,9 +19,7 @@ interface AppObject {
 export default function appBuilder (apps: AppObject, port: number | string) {
   const app = express();
   apps[port] = app;
-  // @ts-expect-error
   app.use(morgan('dev'));
-  // @ts-expect-error
   app.use(cookieParser());
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
@@ -29,7 +27,6 @@ export default function appBuilder (apps: AppObject, port: number | string) {
   app.use(helmet({
     contentSecurityPolicy: false
   }));
-  // @ts-expect-error
   app.use(csurf({
     cookie: {
       secure: isProduction,
