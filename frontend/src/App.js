@@ -17,8 +17,10 @@ export default function App () {
   const user = useSelector(state => state.session.user);
 
   useEffect(() => {
-    CsrfFetch.restoreCSRF();
-    CsrfFetch.setToken();
+    (async () => {
+      await CsrfFetch.restoreCSRF();
+      CsrfFetch.setToken();
+    })();
   }, []);
 
   useEffect(() => {

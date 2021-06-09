@@ -10,7 +10,7 @@ class CsrfFetch {
   }
 
   async get (url, paramsObj) {
-    url += '?';
+    paramsObj && (url += '?');
     for (const key in paramsObj) url += `&${key}=${paramsObj[key]}`;
     const res = await window.fetch(url);
     if (res.status >= 400) throw (await res.json());
@@ -40,8 +40,8 @@ class CsrfFetch {
     this.options.headers['XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
   }
 
-  restoreCSRF () {
-    window.fetch('/api/csrf/restore/');
+  async restoreCSRF () {
+    await window.fetch('/api/csrf/restore/');
   }
 }
 
