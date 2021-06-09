@@ -10,6 +10,13 @@ import configureStore from './store';
 import './index.css';
 import csrfetch from './store/csrf';
 
+// eslint-disable-next-line no-extend-native
+String.prototype.padEndUntil = function (pattern, val) {
+  let out = this.toString();
+  while (!this.match(pattern)) out += val;
+  return out;
+};
+
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
