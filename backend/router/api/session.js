@@ -15,7 +15,7 @@ router.delete('/', (_req, res) => {
 router.post('/', asyncHandler(async (req, res) => {
   const { body: { identification, password } } = req;
   const user = await User.LogIn({ identification, password });
-  const token = user && createToken(user.id);
+  const token = createToken(user.id);
   const isProduction = environment === 'production';
   const cookieOptions = {
     maxAge: jwtConfig.expiresIn * 1000,
@@ -23,7 +23,7 @@ router.post('/', asyncHandler(async (req, res) => {
     secure: isProduction,
     sameSite: isProduction && 'Lax'
   };
-  token && res.cookie('token', token, cookieOptions);
+  res.cookie('token', token, cookieOptions);
   res.json({ user });
 }));
 

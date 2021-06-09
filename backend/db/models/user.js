@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async LogIn ({ identification, password }) {
-      if (!identification || !password) return null;
+      const errors = [];
+      if (!identification) errors.push(new ValidationErrorItem('Please provide a username or email'));
+      if (!password) errors.push(new ValidationErrorItem('Please provide a password'));
+      if (errors.length) throw new ValidationError('Invalid login', errors);
       const potentialUser = await User.findOne({
         where: {
           [Op.or]: [
@@ -32,7 +35,11 @@ module.exports = (sequelize, DataTypes) => {
           ]
         }
       });
-      return potentialUser && potentialUser.validatePass(password);
+      if (!potentialUser || !potentialUser.validatePass(password)) {
+        errors.push(new ValidationErrorItem('Invalid username or password'));
+        throw new ValidationError('Invalid login', errors);
+      }
+      return potentialUser;
     }
 
     static async SignUp ({ firstName, username, email, password }) {
