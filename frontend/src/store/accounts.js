@@ -52,8 +52,8 @@ export const CreateCommunal = newAccount => async dispatch => {
 
 export default function reducer (
   // eslint-disable-next-line default-param-last
-  state = { all: [], personals: [], communals: [] },
-  { type, all, personals, communals }
+  state = { all: [], personals: [], communals: [], current: null },
+  { type, all, personals, communals, current }
 ) {
   switch (type) {
     case ALL:
@@ -62,6 +62,8 @@ export default function reducer (
       return { ...state, personals };
     case COMMUNAL:
       return { ...state, communals };
+    case CURRENT:
+      return { ...state, current };
     default:
       return state;
   }
