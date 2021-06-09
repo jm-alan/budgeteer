@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       return { id, firstName, username, email };
     }
 
+    async getAccounts () {
+      return [...(await this.getPersonals()), ...(await this.getCommunes())];
+    }
+
     static async LogIn ({ identification, password }) {
       if (!identification || !password) return null;
       const potentialUser = await User.findOne({
@@ -32,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async SignUp ({ firstName, username, email, password }) {
+      const errors = [];
+      if (await User.findOne({ where: { username } })) errors.push(new ValidationErrorItem('An account already exists with that username'));
+      if (await User.findOne({ where: { email } })) errors.push(new ValidationErrorItem('An account already exists with that email'));
+      if (errors.length) throw new ValidationError('Could not accept identification', errors);
       const newUser = new User({ firstName, username, email, password });
       return (await newUser.save()).info;
     }
