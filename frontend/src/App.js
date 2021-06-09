@@ -17,6 +17,7 @@ export default function App () {
 
   useEffect(() => {
     CsrfFetch.restoreCSRF();
+    CsrfFetch.setToken();
   }, []);
 
   useEffect(() => {
