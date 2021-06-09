@@ -1,5 +1,4 @@
-import CsrfFetch from './csrf';
-const csrfetch = new CsrfFetch();
+import csrfetch from './csrf';
 
 const USER = 'session/USER';
 
