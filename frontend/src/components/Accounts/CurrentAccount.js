@@ -4,7 +4,7 @@ export default function CurrentAccount () {
   const current = useSelector(state => state.accounts.current);
 
   return current && (
-    <div className='container current-account'>
+    <div className='subcontainer current-account'>
       <div className='subcontainer current-account-name'>
         {current.name}
       </div>
