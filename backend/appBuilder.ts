@@ -1,5 +1,4 @@
 import express, { Express, NextFunction } from 'express';
-import { ValidationError } from 'sequelize';
 import morgan from 'morgan';
 import cors from 'cors';
 import csurf from 'csurf';
@@ -9,6 +8,8 @@ import cookieParser from 'cookie-parser';
 import router from './router';
 import { RequestError, ExtendedValidationError } from './RequestError'
 import { environment } from './config';
+import validationHandler from './utils/validationHandler'
+import errorHandler from './utils/errorHandler';
 
 const isProduction = environment === 'production';
 
@@ -46,30 +47,7 @@ export default function appBuilder (apps: AppObject, port: number | string) {
     next(err);
   });
 
-  app.use((err: RequestError | Error | ValidationError, _req, _res, next: NextFunction) => {
-    if (err instanceof ValidationError) {
-      const errOut = new ExtendedValidationError('Validation Error');
-      errOut.errors = err.errors.map(e => e.message);
-      return next(errOut);
-    } else return next(err);
-  });
+  app.use(validationHandler);
 
-  app.use((err: Error | RequestError | ExtendedValidationError, _req, res, _next) => {
-    if (err instanceof RequestError || err instanceof ExtendedValidationError) res.status(err.status);
-    else res.status(500);
-    console.error(err);
-    console.error(err.toString());
-    res.json({
-      title: err instanceof RequestError
-        ? err.title
-        : 'Server Error',
-      message: (err instanceof RequestError && err.message) || null,
-      errors: ((
-          err instanceof RequestError ||
-          err instanceof ExtendedValidationError
-        ) && err.errors
-      ) || null,
-      stack: isProduction && err instanceof Error && err.stack
-    });
-  });
+  app.use(errorHandler);
 }
