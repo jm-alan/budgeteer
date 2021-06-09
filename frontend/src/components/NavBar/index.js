@@ -36,6 +36,11 @@ export default function NavBar () {
                 Home
               </button>
             </Link>
+            <Link to='/accounts/'>
+              <button>
+                My Accounts
+              </button>
+            </Link>
             <button onClick={logOut}>
               Log Out
             </button>
