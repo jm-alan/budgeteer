@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       return { id, firstName, username, email };
     }
 
-    async getAccounts () {
-      return [...(await this.getPersonals()), ...(await this.getCommunes())];
+    async getAccounts (options) {
+      return [...(await this.getPersonals(options)), ...(await this.getCommunes(options))];
     }
 
     static async LogIn ({ identification, password }) {
