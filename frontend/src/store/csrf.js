@@ -1,24 +1,11 @@
 import Cookies from 'js-cookie';
 
-export default class CsrfFetch {
+class CsrfFetch {
   constructor () {
     this.options = {
       headers: {
-        'Content-Type': 'application/json',
-        'XSRF-Token': Cookies.get('XSRF-TOKEN')
+        'Content-Type': 'application/json'
       }
-    };
-
-    this.post = this._createFetch('POST');
-    this.patch = this._createFetch('PATCH');
-    this.delete = this._createFetch('DELETE');
-  }
-
-  _createFetch (method) {
-    return async (url, body) => {
-      body = JSON.stringify(body);
-      const res = await window.fetch(url, { ...this.options, method, body });
-      return await res.json();
     };
   }
 
@@ -26,10 +13,36 @@ export default class CsrfFetch {
     url += '?';
     for (const key in paramsObj) url += `&${key}=${paramsObj[key]}`;
     const res = await window.fetch(url);
-    return await res.json();
+    if (res.status >= 400) throw (await res.json());
+    else return await res.json();
   }
 
-  static restoreCSRF () {
+  async post (url, body) {
+    return await this.__forwardFetch(url, body, 'POST');
+  }
+
+  async patch (url, body) {
+    return await this.__forwardFetch(url, body, 'PATCH');
+  }
+
+  async delete (url, body) {
+    return await this.__forwardFetch(url, body, 'DELETE');
+  }
+
+  async __forwardFetch (url, body, method) {
+    body = JSON.stringify(body);
+    const res = await window.fetch(url, { ...this.options, method, body });
+    if (res.status >= 400) throw (await res.json());
+    else return await res.json();
+  }
+
+  setToken () {
+    this.options.headers['XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
+  }
+
+  restoreCSRF () {
     window.fetch('/api/csrf/restore/');
   }
 }
+
+export default new CsrfFetch();
