@@ -4,11 +4,13 @@ import thunk from 'redux-thunk';
 import session from './session';
 import UX from './UX';
 import modal from './modal';
+import accounts from './accounts';
 
 const rootReducer = combineReducers({
   session,
   UX,
-  modal
+  modal,
+  accounts
 });
 
 let enhancer;
