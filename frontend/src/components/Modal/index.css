@@ -11,8 +11,9 @@
 }
 
 .modal-content {
-  width: 45vw;
-  height: 45vh;
+  padding: 3rem;
+  width: min-content;
+  height: min-content;
   background-color: white;
   border-radius: 10px;
 }

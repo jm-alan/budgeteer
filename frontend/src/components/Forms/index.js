@@ -1,8 +1,13 @@
+import Error from './Error';
+
 import './index.css';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default ({ children, onSubmit }) => (
-  <form className='auth-form' onSubmit={onSubmit}>
-    {children}
-  </form>
+export default ({ children, onSubmit, error }) => (
+  <>
+    <Error error={error} />
+    <form className='auth-form' onSubmit={onSubmit}>
+      {children}
+    </form>
+  </>
 );
