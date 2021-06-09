@@ -13,19 +13,25 @@ router.post('/', asyncHanlder(async (req, res) => {
 
 router.get('/me/personals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getPersonals();
+  const accounts = await user.getPersonals({
+    include: ['Item']
+  });
   res.json({ accounts });
 }));
 
 router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getCommunes();
+  const accounts = await user.getCommunes({
+    include: ['Item']
+  });
   res.json({ accounts });
 }));
 
 router.get('/me/accounts/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getAccounts();
+  const accounts = await user.getAccounts({
+    include: ['Item']
+  });
   res.json({ accounts });
 }));
 
