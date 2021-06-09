@@ -1,23 +1,12 @@
 import csrfetch from './csrf';
 
-const ALL = 'accounts/ALL';
-const PERSONAL = 'accounts/PERSONAL';
-const COMMUNAL = 'accounts/COMMUNAL';
+const LIST = 'accounts/LIST';
 const CURRENT = 'accounts/CURRENT';
+const UNLOAD = 'accounts/UNLOAD';
 
-const setAll = all => ({
-  type: ALL,
-  all
-});
-
-const setPersonals = personals => ({
-  type: PERSONAL,
-  personals
-});
-
-const setCommunals = communals => ({
-  type: COMMUNAL,
-  communals
+const setList = list => ({
+  type: LIST,
+  list
 });
 
 export const setCurrent = current => ({
@@ -25,19 +14,23 @@ export const setCurrent = current => ({
   current
 });
 
+export const UnloadAccounts = () => ({
+  type: UNLOAD
+});
+
 export const GetAllAccounts = () => async dispatch => {
   const { accounts } = await csrfetch.get('/api/me/accounts/');
-  dispatch(setAll(accounts));
+  dispatch(setList(accounts));
 };
 
 export const GetAllPersonals = () => async dispatch => {
   const { accounts } = await csrfetch.get('/api/me/personals/');
-  dispatch(setPersonals(accounts));
+  dispatch(setList(accounts));
 };
 
 export const GetAllCommunals = () => async dispatch => {
   const { accounts } = await csrfetch.get('/api/me/communals/');
-  dispatch(setCommunals(accounts));
+  dispatch(setList(accounts));
 };
 
 export const CreatePersonal = newAccount => async dispatch => {
@@ -52,18 +45,16 @@ export const CreateCommunal = newAccount => async dispatch => {
 
 export default function reducer (
   // eslint-disable-next-line default-param-last
-  state = { all: [], personals: [], communals: [], current: null },
-  { type, all, personals, communals, current }
+  state = { list: [], current: null },
+  { type, list, current }
 ) {
   switch (type) {
-    case ALL:
-      return { ...state, all };
-    case PERSONAL:
-      return { ...state, personals };
-    case COMMUNAL:
-      return { ...state, communals };
+    case LIST:
+      return { ...state, list };
     case CURRENT:
       return { ...state, current };
+    case UNLOAD:
+      return { list: [], current: null };
     default:
       return state;
   }
