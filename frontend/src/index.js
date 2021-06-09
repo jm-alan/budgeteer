@@ -17,6 +17,13 @@ String.prototype.padEndUntil = function (pattern, val) {
   return out;
 };
 
+// eslint-disable-next-line no-extend-native
+String.prototype.truncateUntil = function (pattern) {
+  let out = this.toString();
+  while (!out.match(pattern)) out = out.slice(0, out.length - 1);
+  return out;
+};
+
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
