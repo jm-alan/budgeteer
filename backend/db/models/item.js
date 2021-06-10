@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       Item.belongsTo(models.User, { foreignKey: 'ownerId' });
       Item.addHook('afterFind', res => {
         if (!Array.isArray(res)) res = [res];
-        for (const item of res) item.account = item.Personal || item.Commune;
+        for (const item of res) item.Account = item.Personal || item.Commune;
       });
     }
   }

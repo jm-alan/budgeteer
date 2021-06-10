@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'accountId',
         constraints: false,
         scope: {
-          accountType: 'commune'
+          accountType: 'Commune'
         }
       });
     }
