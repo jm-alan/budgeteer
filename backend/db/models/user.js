@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       });
       if (!potentialUser || !potentialUser.validatePass(password)) {
-        errors.push(new ValidationErrorItem('Invalid username or password'));
+        errors.push(new ValidationErrorItem('Invalid username, email, or password'));
         throw new ValidationError('Invalid login', errors);
       }
       return potentialUser;
