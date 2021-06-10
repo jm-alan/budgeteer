@@ -19,17 +19,17 @@ export const UnloadAccounts = () => ({
 });
 
 export const GetAllAccounts = () => async dispatch => {
-  const { accounts } = await csrfetch.get('/api/me/accounts/');
+  const { accounts } = await csrfetch.get('/api/users/me/accounts/');
   dispatch(setList(accounts));
 };
 
 export const GetAllPersonals = () => async dispatch => {
-  const { accounts } = await csrfetch.get('/api/me/personals/');
+  const { accounts } = await csrfetch.get('/api/users/me/personals/');
   dispatch(setList(accounts));
 };
 
 export const GetAllCommunals = () => async dispatch => {
-  const { accounts } = await csrfetch.get('/api/me/communals/');
+  const { accounts } = await csrfetch.get('/api/users/me/communals/');
   dispatch(setList(accounts));
 };
 
