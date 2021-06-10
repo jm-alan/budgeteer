@@ -10,7 +10,7 @@ const { hashSync, compareSync } = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     validatePass (password) {
-      return compareSync(password, this.password) ? this.info : null;
+      return !!password && compareSync(password, this.password);
     }
 
     get info () {
