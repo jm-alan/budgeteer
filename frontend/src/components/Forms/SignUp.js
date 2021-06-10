@@ -33,7 +33,7 @@ export default function SignUpForm () {
         .catch(err => {
           setError(err);
         });
-    }
+    } else setError({ message: 'Passwords must match', errors: [] });
   };
 
   const switchForm = () => dispatch(SetCurrentModal(LogInForm));
