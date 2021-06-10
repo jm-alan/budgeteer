@@ -25,14 +25,14 @@ router.post('/', asyncHanlder(async (req, res) => {
 router.get('/me/personals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
   const accounts = await user.getPersonals();
-  for (const key in accounts) accounts[key] = { ...accounts[key], items: await accounts[key].getItems() };
+  for (const key in accounts) accounts[key] = { ...accounts[key].dataValues, Items: await accounts[key].getItems() };
   res.json({ accounts: [] });
 }));
 
 router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
   const accounts = await user.getCommunes();
-  for (const key in accounts) accounts[key] = { ...accounts[key], items: await accounts[key].getItems() };
+  for (const key in accounts) accounts[key] = { ...accounts[key].dataValues, Items: await accounts[key].getItems() };
   res.json({ accounts });
 }));
 
