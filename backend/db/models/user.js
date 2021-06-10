@@ -18,14 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       return { id, firstName, username, email };
     }
 
-    async getAccounts () {
-      const personals = await this.getPersonals();
-      const communals = await this.getCommunes();
-      for (const key in personals) personals[key] = { ...personals[key].dataValues, items: await personals[key].getItems() };
-      for (const key in communals) communals[key] = { ...communals[key].dataValues, items: await communals[key].getItems() };
-      return [...personals, ...communals];
-    }
-
     static async LogIn ({ identification, password }) {
       const errors = [];
       if (!identification) errors.push(new ValidationErrorItem('Please provide a username or email'));

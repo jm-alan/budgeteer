@@ -38,12 +38,4 @@ router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   res.json({ accounts });
 }));
 
-router.get('/me/accounts/', restoreOrReject, asyncHanlder(async (req, res) => {
-  const { user } = req;
-  const accountsArray = await user.getAccounts();
-  const accounts = {};
-  for (const account of accountsArray) accounts[account.id] = { ...account.dataValues, Items: await account.getItems() };
-  res.json({ accounts });
-}));
-
 export default router;
