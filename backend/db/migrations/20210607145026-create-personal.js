@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       balance: {
-        type: Sequelize.DECIMAL(2),
+        type: Sequelize.STRING,
         defaultValue: 0
       },
       ownerId: {
