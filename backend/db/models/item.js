@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     async getAccount (options) {
-      return await this[`get${this.itemType}`]();
+      return await this[`get${this.itemType}`](options);
     }
 
     static associate (models) {
