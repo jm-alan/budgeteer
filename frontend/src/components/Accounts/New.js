@@ -6,7 +6,7 @@ export default function NewAccountForm () {
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [personal, setPersonal] = useState(true);
+  const [communal, setCommunal] = useState(false);
   const [balance, setBalance] = useState('');
   const [shouldMoveCursor, setShouldMoveCursor] = useState(true);
   const [cursorMovedOnce, setCursorMovedOnce] = useState(false);
@@ -48,7 +48,7 @@ export default function NewAccountForm () {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (personal) dispatch(CreatePersonal({ name, balance }));
+    if (!communal) dispatch(CreatePersonal({ name, balance }));
     else dispatch(CreateCommunal({ name }));
   };
 
@@ -58,13 +58,13 @@ export default function NewAccountForm () {
       onSubmit={onSubmit}
     >
       <label htmlFor='personal'>
-        Personal?
+        Shared?
         <input
           type='checkbox'
           className='form-input-personal'
           id='personal'
-          value={personal}
-          onChange={() => setPersonal(p => !p)}
+          checked={communal}
+          onChange={() => setCommunal(c => !c)}
         />
       </label>
       <input
@@ -75,15 +75,23 @@ export default function NewAccountForm () {
         onChange={({ target: { value } }) => setName(value)}
         className='form-input'
       />
-      <input
-        ref={balanceRef}
-        type='text'
-        id='starting-balance'
-        placeholder='Starting balance 0.00'
-        className='form-input'
-        onChange={validateBalance}
-        value={balance}
-      />
+      {!communal && (
+        <input
+          ref={balanceRef}
+          type='text'
+          id='starting-balance'
+          placeholder='Starting balance 0.00'
+          className='form-input'
+          onChange={validateBalance}
+          value={balance}
+        />
+      )}
+      <button
+        className='form-button'
+        type='submit'
+      >
+        Create
+      </button>
     </form>
   );
 }
