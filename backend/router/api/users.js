@@ -13,37 +13,32 @@ router.post('/', asyncHanlder(async (req, res) => {
   const user = await User.SignUp(body);
   const token = createToken(user.id);
   const isProduction = environment === 'production';
-  const cookieOptions = {
+  res.cookie('token', token, {
     maxAge: jwtConfig.expiresIn * 1000,
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction && 'Lax'
-  };
-  res.cookie('token', token, cookieOptions);
+  });
   res.json({ user });
 }));
 
 router.get('/me/personals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getPersonals({
-    include: ['Item']
-  });
-  res.json({ accounts });
+  const accounts = await user.getPersonals();
+  for (const key in accounts) accounts[key] = { ...accounts[key], items: await accounts[key].getItems() };
+  res.json({ accounts: [] });
 }));
 
 router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getCommunes({
-    include: ['Item']
-  });
+  const accounts = await user.getCommunes();
+  for (const key in accounts) accounts[key] = { ...accounts[key], items: await accounts[key].getItems() };
   res.json({ accounts });
 }));
 
 router.get('/me/accounts/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getAccounts({
-    include: ['Item']
-  });
+  const accounts = await user.getAccounts();
   res.json({ accounts });
 }));
 
