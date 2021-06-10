@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     async getAccounts () {
       const personals = await this.getPersonals();
       const communals = await this.getCommunes();
-      for (const key in personals) personals[key] = { ...personals[key], items: await personals[key].getItems() };
-      for (const key in communals) communals[key] = { ...communals[key], items: await communals[key].getItems() };
+      for (const key in personals) personals[key] = { ...personals[key].dataValues, items: await personals[key].getItems() };
+      for (const key in communals) communals[key] = { ...communals[key].dataValues, items: await communals[key].getItems() };
       return [...personals, ...communals];
     }
 
