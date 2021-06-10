@@ -17,13 +17,12 @@ router.post('/', asyncHandler(async (req, res) => {
   const user = await User.LogIn({ identification, password });
   const token = createToken(user.id);
   const isProduction = environment === 'production';
-  const cookieOptions = {
+  res.cookie('token', token, {
     maxAge: jwtConfig.expiresIn * 1000,
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction && 'Lax'
-  };
-  res.cookie('token', token, cookieOptions);
+  });
   res.json({ user });
 }));
 
