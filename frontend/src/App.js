@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import Modal from './components/Modal';
 import AccountPage from './components/Accounts';
 import CsrfFetch from './store/csrf';
 import { RestoreUser } from './store/session';
@@ -29,7 +28,6 @@ export default function App () {
 
   return loaded && (
     <>
-      <Modal />
       <NavBar />
       <Switch>
         <Route exact path='/'>
