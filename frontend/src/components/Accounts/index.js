@@ -2,12 +2,15 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CurrentAccount from './CurrentAccount';
+import NewAccountForm from './New';
 import {
   GetAllAccounts,
   GetAllCommunals,
   GetAllPersonals,
   UnloadAccounts
 } from '../../store/accounts';
+import { SetCurrentModal } from '../../store/modal';
+import { ShowModal } from '../../store/UX';
 
 export default function Accounts () {
   const dispatch = useDispatch();
@@ -17,6 +20,11 @@ export default function Accounts () {
   const selectAll = () => dispatch(GetAllAccounts());
   const selectPersonal = () => dispatch(GetAllPersonals());
   const selectCommunal = () => dispatch(GetAllCommunals());
+
+  const popNewAccount = () => {
+    dispatch(SetCurrentModal(NewAccountForm));
+    dispatch(ShowModal());
+  };
 
   useEffect(() => {
     dispatch(GetAllAccounts());
@@ -44,6 +52,12 @@ export default function Accounts () {
             onClick={selectCommunal}
           >
             Shared
+          </button>
+          <button
+            className='account-select'
+            onClick={popNewAccount}
+          >
+            + New
           </button>
         </div>
         {list.map((account, idx) => (
