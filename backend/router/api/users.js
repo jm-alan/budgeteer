@@ -24,21 +24,25 @@ router.post('/', asyncHanlder(async (req, res) => {
 
 router.get('/me/personals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getPersonals();
-  for (const key in accounts) accounts[key] = { ...accounts[key].dataValues, Items: await accounts[key].getItems() };
-  res.json({ accounts: [] });
+  const accountsArray = await user.getPersonals();
+  const accounts = {};
+  for (const account of accountsArray) accounts[account.id] = { ...account.dataValues, Items: await account.getItems() };
+  res.json({ accounts });
 }));
 
 router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getCommunes();
-  for (const key in accounts) accounts[key] = { ...accounts[key].dataValues, Items: await accounts[key].getItems() };
+  const accountsArray = await user.getCommunes();
+  const accounts = {};
+  for (const account of accountsArray) accounts[account.id] = { ...account.dataValues, Items: await account.getItems() };
   res.json({ accounts });
 }));
 
 router.get('/me/accounts/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accounts = await user.getAccounts();
+  const accountsArray = await user.getAccounts();
+  const accounts = {};
+  for (const account of accountsArray) accounts[account.id] = { ...account.dataValues, Items: await account.getItems() };
   res.json({ accounts });
 }));
 
