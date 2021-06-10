@@ -6,7 +6,7 @@ import './index.css';
 export default ({ children, onSubmit, error }) => (
   <>
     <Error error={error} />
-    <form className='auth-form' onSubmit={onSubmit}>
+    <form className='form auth-form' onSubmit={onSubmit}>
       {children}
     </form>
   </>

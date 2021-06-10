@@ -18,7 +18,7 @@
   position: relative;
 }
 
-.auth-form :is(.form-input, .form-button) {
+.form :is(.form-input, .form-button) {
   height: 50px;
   border: none;
   border-radius: 5px;
