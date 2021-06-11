@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-
 class CsrfFetch {
   constructor () {
     this.options = {
@@ -36,12 +34,9 @@ class CsrfFetch {
     else return await res.json();
   }
 
-  setToken () {
-    this.options.headers['XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
-  }
-
   async restoreCSRF () {
-    await window.fetch('/api/csrf/restore/');
+    const { token } = await this.get('/api/csrf/restore/');
+    this.options.headers['XSRF-Token'] = token;
   }
 }
 

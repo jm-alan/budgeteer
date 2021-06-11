@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
 import AccountPage from './components/Accounts';
-import CsrfFetch from './store/csrf';
+import csrfetch from './store/csrf';
 import { RestoreUser } from './store/session';
 
 import './index.css';
@@ -16,11 +16,8 @@ export default function App () {
   const user = useSelector(state => state.session.user);
 
   useEffect(() => {
-    (async () => {
-      await CsrfFetch.restoreCSRF();
-      CsrfFetch.setToken();
-    })();
-  }, []);
+    csrfetch.restoreCSRF();
+  });
 
   useEffect(() => {
     dispatch(RestoreUser());
