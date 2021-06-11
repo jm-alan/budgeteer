@@ -1,0 +1,15 @@
+.container.accounts-page {
+  display: flex;
+}
+
+.account-warning {
+  font-weight: bolder;
+}
+
+.account-warning.preamble {
+  color: red;
+}
+
+form.confirm-delete {
+  margin-top: 10px;
+}
