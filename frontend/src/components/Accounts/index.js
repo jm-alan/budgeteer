@@ -4,22 +4,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import CurrentAccount from './CurrentAccount';
 import NewAccountForm from './New';
 import {
-  GetAllAccounts,
   GetAllCommunals,
   GetAllPersonals,
+  SelectAll,
+  SelectCommunals,
+  SelectPersonals,
   UnloadAccounts
 } from '../../store/accounts';
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
+import AccountListEntry from './AccountListEntry';
+
+import './index.css';
 
 export default function Accounts () {
   const dispatch = useDispatch();
 
   const list = useSelector(state => state.accounts.list);
 
-  const selectAll = () => dispatch(GetAllAccounts());
-  const selectPersonal = () => dispatch(GetAllPersonals());
-  const selectCommunal = () => dispatch(GetAllCommunals());
+  const selectAll = () => dispatch(SelectAll());
+  const selectPersonals = () => dispatch(SelectPersonals());
+  const selectCommunals = () => dispatch(SelectCommunals());
 
   const popNewAccount = () => {
     dispatch(SetCurrentModal(NewAccountForm));
@@ -27,7 +32,8 @@ export default function Accounts () {
   };
 
   useEffect(() => {
-    dispatch(GetAllAccounts());
+    dispatch(GetAllPersonals());
+    dispatch(GetAllCommunals());
     return () => dispatch(UnloadAccounts());
   }, [dispatch]);
 
@@ -43,13 +49,13 @@ export default function Accounts () {
           </button>
           <button
             className='account-select'
-            onClick={selectPersonal}
+            onClick={selectPersonals}
           >
             Personal
           </button>
           <button
             className='account-select'
-            onClick={selectCommunal}
+            onClick={selectCommunals}
           >
             Shared
           </button>
@@ -61,9 +67,7 @@ export default function Accounts () {
           </button>
         </div>
         {list.map((account, idx) => (
-          <div key={idx} className='account-list-item'>
-            {account.name}
-          </div>
+          <AccountListEntry key={idx} account={account} />
         ))}
       </div>
       <CurrentAccount />
