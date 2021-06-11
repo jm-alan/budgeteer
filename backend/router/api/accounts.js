@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
+import { RequestError } from '../../RequestError';
 import restoreOrReject from '../../utils/restoreOrReject';
 
 const router = Router();
 
-router.delete('/personals/:accountId(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { accountId } } = req;
-  const account = (await user.getPersonals()).filter(({ id }) => id === accountId)[0];
+router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, params: { id }, body: { password } } = req;
+  if (
+    !user.validatePass(password)
+  ) throw new RequestError('Invalid password', 'The password provided was incorrect', 401);
+  const account = (await user.getPersonals({ where: { id } }))[0];
   if (!account) return res.json({ success: true });
   try {
     await account.destroy();
@@ -19,9 +23,12 @@ router.delete('/personals/:accountId(\\d+)/', restoreOrReject, asyncHandler(asyn
   }
 }));
 
-router.delete('/communals/:accountId(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { accountId } } = req;
-  const account = (await user.getCommunals()).filter(({ id }) => id === accountId)[0];
+router.delete('/communals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, params: { id }, body: { password } } = req;
+  if (
+    !user.validatePass(password)
+  ) throw new RequestError('Invalid password', 'The password provided was incorrect', 401);
+  const account = (await user.getCommunals({ where: { id } }))[0];
   if (!account) return res.json({ success: true });
   try {
     await user.removeCommunal(account);
