@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { CreateCommunal, CreatePersonal } from '../../store/accounts';
+import { SetCurrentModal } from '../../store/modal';
+import { HideModal } from '../../store/UX';
 
 export default function NewAccountForm () {
   const dispatch = useDispatch();
@@ -48,8 +50,19 @@ export default function NewAccountForm () {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!communal) dispatch(CreatePersonal({ name, balance }));
-    else dispatch(CreateCommunal({ name }));
+    if (!communal) {
+      dispatch(CreatePersonal({ name, balance }))
+        .then(() => {
+          dispatch(SetCurrentModal(null));
+          dispatch(HideModal());
+        });
+    } else {
+      dispatch(CreateCommunal({ name }))
+        .then(() => {
+          dispatch(SetCurrentModal(null));
+          dispatch(HideModal());
+        });
+    }
   };
 
   return (
