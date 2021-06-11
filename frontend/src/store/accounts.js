@@ -30,7 +30,7 @@ const deleteCommunal = id => ({
   id
 });
 
-export const setCurrent = current => ({
+export const SetCurrentAccount = current => ({
   type: CURRENT,
   current
 });
@@ -63,22 +63,22 @@ export const GetAllCommunals = () => async dispatch => {
 
 export const CreatePersonal = newAccount => async dispatch => {
   const { account } = await csrfetch.post('/api/accounts/personals/', newAccount);
-  dispatch(setCurrent(account));
+  dispatch(SetCurrentAccount(account));
 };
 
 export const CreateCommunal = newAccount => async dispatch => {
   const { account } = await csrfetch.post('/api/accounts/communals/', newAccount);
-  dispatch(setCurrent(account));
+  dispatch(SetCurrentAccount(account));
 };
 
-export const DeletePersonal = id => async dispatch => {
-  const { success } = await csrfetch.delete(`/api/accounts/personals/${id}/`);
+export const DeletePersonal = (id, password) => async dispatch => {
+  const { success } = await csrfetch.delete(`/api/accounts/personals/${id}/`, { password });
   if (success) dispatch(deletePersonal(id));
   else throw new Error('Something went wrong. Please refresh the page and try again.');
 };
 
-export const DeleteCommunal = id => async dispatch => {
-  const { success } = await csrfetch.delete(`/api/accounts/communals/${id}/`);
+export const DeleteCommunal = (id, password) => async dispatch => {
+  const { success } = await csrfetch.delete(`/api/accounts/communals/${id}/`, { password });
   if (success) dispatch(deleteCommunal(id));
   else throw new Error('Something went wrong. Please refresh the page and try again.');
 };
@@ -97,10 +97,24 @@ export default function reducer (
       return { ...state, current };
     case DELETE_PERSONAL:
       delete state.personals[id];
-      return { ...state, personals: { ...state.personals } };
+      return {
+        ...state,
+        personals: { ...state.personals },
+        list: [
+          ...Object.values(state.personals),
+          ...Object.values(state.communals)
+        ]
+      };
     case DELETE_COMMUNAL:
       delete state.communals[id];
-      return { ...state, communals: { ...state.communals } };
+      return {
+        ...state,
+        communals: { ...state.communals },
+        list: [
+          ...Object.values(state.personals),
+          ...Object.values(state.communals)
+        ]
+      };
     case SELECT_ALL:
       return {
         ...state,
