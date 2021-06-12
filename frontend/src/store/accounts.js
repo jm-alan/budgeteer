@@ -106,14 +106,22 @@ export const CreateCommunal = newAccount => async dispatch => {
 
 export const DeletePersonal = (id, password) => async dispatch => {
   const { success } = await csrfetch.delete(`/api/accounts/personals/${id}/`, { password });
-  if (success) dispatch(deletePersonal(id));
-  else throw new Error('Something went wrong. Please refresh the page and try again.');
+  if (success) {
+    dispatch(deletePersonal(id));
+    dispatch(SetCurrentAccount(null));
+    dispatch(SetCurrentModal(null));
+    dispatch(HideModal());
+  } else throw new Error('Something went wrong. Please refresh the page and try again.');
 };
 
 export const DeleteCommunal = (id, password) => async dispatch => {
   const { success } = await csrfetch.delete(`/api/accounts/communals/${id}/`, { password });
-  if (success) dispatch(deleteCommunal(id));
-  else throw new Error('Something went wrong. Please refresh the page and try again.');
+  if (success) {
+    dispatch(deleteCommunal(id));
+    dispatch(SetCurrentAccount(null));
+    dispatch(SetCurrentModal(null));
+    dispatch(HideModal());
+  } else throw new Error('Something went wrong. Please refresh the page and try again.');
 };
 
 export default function reducer (
