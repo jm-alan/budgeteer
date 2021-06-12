@@ -138,38 +138,49 @@ export default function reducer (
     selected: 'all', // many other objects on it, an empty object will suffice. If the object
     current: null // will represent a single instance, I'm likely going to want to falsy check
   }, // or short circuit (&&) against it, so we'd want null, since {} is truthy.
+  // Here I'm just destructuring my action; this is equivalent to action.type, action.accout, etc.
   { type, account, personals, communals, current, id }
 ) {
   switch (type) {
     case PERSONALS:
+      // These first three are extremely straightforward; we take the thing in and set it to that property
       return { ...state, personals };
     case COMMUNALS:
       return { ...state, communals };
     case CURRENT:
       return { ...state, current };
     case ADD_PERSONAL:
+      // Here we assign personals to our most up-to-date personal accounts already stored on our state,
+      // and create one new property for the new account id, assigned to that account
+      personals = { ...state.personals, [account.id]: account };
+      // Here's where the shenanigans begin
       return {
+        // You know this one
         ...state,
-        personals: {
-          ...state.personals,
-          [account.id]: account
-        },
+        // Here, we're reassigning personals to that new personals object, to ensure that the memory reference is
+        // severed, so that any useSelectors listening to state.accounts.personals will re-render
+        personals,
+        // then we reassign list to a new array, which is the return value of this helper function
         list: returnAllOrOne(
+          // the first argument is state.selected, which you'll see a little bit later is simply
+          // a string that holds which list we're currently looking at; "all", "communals", or "personals"
           state.selected,
-          {
-            ...state.personals,
-            [account.id]: account
-          },
+          // the second argument is the most up-to-date list of our personal accounts
+          // since we haven't yet returned from this reducer, state.personals is still the old personals,
+          // so we want to use the new personals object we just made
+          personals,
+          // and the last argument is the communals
           state.communals
         )
+        // this helper function returns an array of either all the accounts, or just the personals or communals,
+        // depending on the value of state.selected
       };
     case ADD_COMMUNAL:
+      // Here we do exactly the same thing as in ADD_PERSONAL, all the way through
+      communals = { ...state.communals, [account.id]: account };
       return {
         ...state,
-        communals: {
-          ...state.communals,
-          [account.id]: account
-        },
+        communals,
         list: returnAllOrOne(
           state.selected,
           state.personals,
@@ -180,9 +191,12 @@ export default function reducer (
         )
       };
     case DELETE_PERSONAL:
+      // This is exactly what it looks like; we destroy the information at the ID we pass in
       delete state.personals[id];
       return {
         ...state,
+        // making sure to reassign that property to a shallow copy of itself to break the memory reference
+        // and guarantee triggering a re-render on anything listening to state.accounts.personals
         personals: { ...state.personals },
         list: returnAllOrOne(state.selected, state.personals, state.communals)
       };
@@ -197,14 +211,26 @@ export default function reducer (
       return {
         ...state,
         list: [
+          // If you aren't aware, Object.values is a static method that extracts all of the
+          // values from an object and outputs them in an array
+          // There also exists Object.keys, which does what you'd expect,
+          // and Object.entries, which returns an array of tuples (arrays of length 2),
+          // where tuple[0] is the key and tuple[1] is the value. Neat!
+          // So all we're doing here is grabbing all of the accounts from both of our
+          // account objects and spreading them into an array
           ...Object.values(state.personals),
           ...Object.values(state.communals)
         ],
+        // Here we set that state.selected property we use above
         selected: 'all'
       };
     case SELECT_PERSONALS:
       return {
         ...state,
+        // here we don't have to spread operator because Object.values already returns an array,
+        // where above we have to concatenate two arrays together.
+        // We also don't have to worry about breaking the memory reference, since an
+        // ARRAY returned from Object.values can't possibly be === to an OBJECT that it parses
         list: Object.values(state.personals),
         selected: 'personals'
       };
@@ -215,7 +241,16 @@ export default function reducer (
         selected: 'communals'
       };
     case UNLOAD:
+      // This is a cleanup case for when I want to be sure that leaving a component and coming back
+      // again will always fetch brand new information
       return { list: [], personals: {}, communals: {}, current: null };
+    // Beacuse it's important to me personally, I'd just like to draw attention to the importance
+    // of a default return in your reducer.
+    // Long story short, EVERY action you dispatch, ANYWHERE in your ENTIRE app, gets passed through
+    // EVERY reducer in your app. If you don't have a default return here that preserves your state,
+    // an action intended for a different reducer will cause this reducer function to return undefined.
+    // Now your entire state.whatever is undefined, which in addition to breaking your app, will in
+    // development throw a "reducer returned undefined" error because that should never happen.
     default:
       return state;
   }
