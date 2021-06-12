@@ -60,7 +60,6 @@ export default function ConfirmDelete () {
           Please enter the account name (<strong>{account.name}</strong>) and your password below to confirm.
         </div>
         <input
-          autoComplete={false}
           className='form-input'
           type='text'
           value={confirmName}
