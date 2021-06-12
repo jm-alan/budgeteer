@@ -75,6 +75,13 @@ export const UnloadAccounts = () => ({
   type: UNLOAD
 });
 
+// ************************************** Thunks/Asynchronous Action Creators **************************************
+// *********************************** These are functions that return functions ***********************************
+// ****** The outer function is what you invoke when you pass it into the useDispatch dispatch in a component ******
+// ***************** The inner function is caught by the redux-thunk middleware, which subsequently ****************
+// ****************** invokes that function with dispatch, giving you the ability to use it within *****************
+// ********************************************** your function body ***********************************************
+
 export const GetAllPersonals = () => async dispatch => {
   const { accounts } = await csrfetch.get('/api/users/me/personals/');
   dispatch(setPersonals(accounts));
