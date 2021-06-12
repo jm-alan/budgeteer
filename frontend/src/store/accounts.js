@@ -94,11 +94,13 @@ export const GetAllCommunals = () => async dispatch => {
 
 export const CreatePersonal = newAccount => async dispatch => {
   const { account } = await csrfetch.post('/api/accounts/personals/', newAccount);
+  dispatch(addPersonal(account));
   dispatch(SetCurrentAccount(account));
 };
 
 export const CreateCommunal = newAccount => async dispatch => {
   const { account } = await csrfetch.post('/api/accounts/communals/', newAccount);
+  dispatch(addCommunal(account));
   dispatch(SetCurrentAccount(account));
 };
 
