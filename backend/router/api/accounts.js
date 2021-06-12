@@ -48,7 +48,7 @@ router.post('/personals/', restoreOrReject, asyncHandler(async (req, res) => {
 
 router.post('/communals/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, body } = req;
-  const account = { ...(await user.createCommune(body)), Items: [] };
+  const account = { ...(await user.createCommune(body)).dataValues, Items: [] };
   res.json({ account });
 }));
 
