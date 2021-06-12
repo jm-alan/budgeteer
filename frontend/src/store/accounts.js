@@ -125,9 +125,16 @@ export const DeleteCommunal = (id, password) => async dispatch => {
 };
 
 export default function reducer (
+  // ignore the comment immediately below this one, it's to make my linter/formatter behave
   // eslint-disable-next-line default-param-last
-  state = { list: [], personals: {}, communals: {}, current: null },
-  { type, personals, communals, current, id }
+  state = { // inline defining initial state; this is personal preference - declaring it
+    list: [], // in a separate variable is totally fine. note that for each slice I'm
+    personals: {}, // initializing it to either a default value that represents "nothing"
+    communals: {}, // for itself, or what I want the default to be. If the object will have
+    selected: 'all', // many other objects on it, an empty object will suffice. If the object
+    current: null // will represent a single instance, I'm likely going to want to falsy check
+  }, // or short circuit (&&) against it, so we'd want null, since {} is truthy.
+  { type, account, personals, communals, current, id }
 ) {
   switch (type) {
     case PERSONALS:
