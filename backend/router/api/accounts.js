@@ -6,6 +6,26 @@ import restoreOrReject from '../../utils/restoreOrReject';
 
 const router = Router();
 
+router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, params: { id }, body } = req;
+  const account = user.getPersonalByPk(id);
+  if (
+    !account
+  ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
+  const item = account.createItem(body);
+  res.json({ item });
+}));
+
+router.post('/communals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, params: { id }, body } = req;
+  const account = user.getCommunalByPk(id);
+  if (
+    !account
+  ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
+  const item = account.createItem(body);
+  res.json({ item });
+}));
+
 router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body: { password } } = req;
   if (
