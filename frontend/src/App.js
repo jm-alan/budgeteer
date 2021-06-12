@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
+import ProtectedRoute from './components/ProtectedRoute';
 import AccountPage from './components/Accounts';
 import csrfetch from './store/csrf';
 import { RestoreUser } from './store/session';
@@ -36,9 +37,9 @@ export default function App () {
             {user && <h1>Hi {`${user.firstName}`}!</h1>}
             {!user && <h1>Welcome! Please either log in or sign up to use this app.</h1>}
           </Route>
-          <Route exact path='/accounts/'>
+          <ProtectedRoute exact path='/accounts/'>
             <AccountPage />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </div>
     </div>
