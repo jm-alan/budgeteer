@@ -17,6 +17,10 @@ const SELECT_ALL = 'accounts/SELECT/ALL';
 const SELECT_PERSONALS = 'accounts/SELECT/PERSONALS';
 const SELECT_COMMUNALS = 'accounts/SELECT/COMMUNALS';
 
+// ***************************************** Synchronous Action Creators ******************************************
+// *************************** These do not interact directly with the backend/database ***************************
+// ******************************** These are simply functions that return objects ********************************
+
 const setPersonals = personals => ({
   type: PERSONALS,
   personals
