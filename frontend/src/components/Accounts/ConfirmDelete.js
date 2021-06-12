@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Error from '../Forms/Error';
-import { DeleteCommunal, DeletePersonal, SetCurrentAccount } from '../../store/accounts';
-import { SetCurrentModal } from '../../store/modal';
-import { HideModal } from '../../store/UX';
+import { DeleteCommunal, DeletePersonal } from '../../store/accounts';
 
 export default function ConfirmDelete () {
   const dispatch = useDispatch();
@@ -21,19 +19,9 @@ export default function ConfirmDelete () {
     if (confirmName === account.name && password) {
       if (account.balance !== undefined) {
         dispatch(DeletePersonal(account.id, password))
-          .then(() => {
-            dispatch(SetCurrentAccount(null));
-            dispatch(SetCurrentModal(null));
-            dispatch(HideModal());
-          })
           .catch(setError);
       } else {
         dispatch(DeleteCommunal(account.id, password))
-          .then(() => {
-            dispatch(SetCurrentAccount(null));
-            dispatch(SetCurrentModal(null));
-            dispatch(HideModal());
-          })
           .catch(setError);
       }
     } else {
