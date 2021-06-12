@@ -2,24 +2,19 @@ import csrfetch from './csrf';
 import { SetCurrentModal } from './modal';
 import { HideModal } from './UX';
 
-// *********************************************** Constants/Types ************************************************
-// **************** We use these to clearly label what our synchronous Action Creator functions do ****************
-
 const PERSONALS = 'accounts/PERSONALS';
 const COMMUNALS = 'accounts/COMMUNALS';
 const CURRENT = 'accounts/CURRENT';
 const UNLOAD = 'accounts/UNLOAD';
 const ADD_PERSONAL = 'accounts/PERSONALS/ADD';
 const ADD_COMMUNAL = 'accounts/COMMUNALS/ADD';
+const ADD_PERSONAL_ITEM = 'accounts/PERSONALS/ITEMS/ADD';
+const ADD_COMMUNAL_ITEM = 'accounts/COMMUNALS/ITEMS/ADD';
 const DELETE_PERSONAL = 'accounts/PERSONALS/DELETE';
 const DELETE_COMMUNAL = 'accounts/COMMUNALS/DELETE';
 const SELECT_ALL = 'accounts/SELECT/ALL';
 const SELECT_PERSONALS = 'accounts/SELECT/PERSONALS';
 const SELECT_COMMUNALS = 'accounts/SELECT/COMMUNALS';
-
-// ***************************************** Synchronous Action Creators ******************************************
-// *************************** These do not interact directly with the backend/database ***************************
-// ******************************** These are simply functions that return objects ********************************
 
 const setPersonals = personals => ({
   type: PERSONALS,
@@ -41,6 +36,16 @@ const addCommunal = account => ({
   account
 });
 
+const addPersonalItem = item => ({
+  type: ADD_PERSONAL_ITEM,
+  item
+});
+
+const addCommunalItem = item => ({
+  type: ADD_COMMUNAL_ITEM,
+  item
+});
+
 const deletePersonal = id => ({
   type: DELETE_PERSONAL,
   id
@@ -55,9 +60,6 @@ export const SetCurrentAccount = current => ({
   type: CURRENT,
   current
 });
-
-// ********************** Notice not all of my synchronous action creators take in arguments **********************
-// ****** That's because sometimes I just need to trigger logic in my reducer for information I already have ******
 
 export const SelectAll = () => ({
   type: SELECT_ALL
@@ -74,13 +76,6 @@ export const SelectCommunals = () => ({
 export const UnloadAccounts = () => ({
   type: UNLOAD
 });
-
-// ************************************** Thunks/Asynchronous Action Creators **************************************
-// *********************************** These are functions that return functions ***********************************
-// ****** The outer function is what you invoke when you pass it into the useDispatch dispatch in a component ******
-// ***************** The inner function is caught by the redux-thunk middleware, which subsequently ****************
-// ****************** invokes that function with dispatch, giving you the ability to use it within *****************
-// ********************************************** your function body ***********************************************
 
 export const GetAllPersonals = () => async dispatch => {
   const { accounts } = await csrfetch.get('/api/users/me/personals/');
@@ -104,6 +99,20 @@ export const CreateCommunal = newAccount => async dispatch => {
   const { account } = await csrfetch.post('/api/accounts/communals/', newAccount);
   dispatch(addCommunal(account));
   dispatch(SetCurrentAccount(account));
+  dispatch(SetCurrentModal(null));
+  dispatch(HideModal());
+};
+
+export const CreatePersonalItem = (id, newItem) => async dispatch => {
+  const { item } = await csrfetch.post(`/api/accounts/personals/${id}/items/`, newItem);
+  dispatch(addPersonalItem(item));
+  dispatch(SetCurrentModal(null));
+  dispatch(HideModal());
+};
+
+export const CreateCommunalItem = (id, newItem) => async dispatch => {
+  const { item } = await csrfetch.post(`/api/accounts/communals/${id}/items/`, newItem);
+  dispatch(addCommunalItem(item));
   dispatch(SetCurrentModal(null));
   dispatch(HideModal());
 };
@@ -138,7 +147,7 @@ export default function reducer (
     current: null,
     loaded: false
   },
-  { type, account, personals, communals, current, id }
+  { type, account, item, personals, communals, current, id }
 ) {
   switch (type) {
     case PERSONALS:
@@ -168,6 +177,28 @@ export default function reducer (
         ...state,
         communals,
         list: returnAllOrOne(state.selected, state.personals, communals)
+      };
+    case ADD_PERSONAL_ITEM:
+      state.personals[item.accountId].Items.push(item);
+      return {
+        ...state,
+        personals: {
+          ...state.personals,
+          [item.accountId]: {
+            ...state.personals[item.accountId]
+          }
+        }
+      };
+    case ADD_COMMUNAL_ITEM:
+      state.communals[item.accountId].Items.push(item);
+      return {
+        ...state,
+        communals: {
+          ...state.communals,
+          [item.accountId]: {
+            ...state.communals[item.accountId]
+          }
+        }
       };
     case DELETE_PERSONAL:
       delete state.personals[id];
