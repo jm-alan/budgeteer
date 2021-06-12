@@ -1,4 +1,9 @@
 import csrfetch from './csrf';
+import { SetCurrentModal } from './modal';
+import { HideModal } from './UX';
+
+// *********************************************** Constants/Types ************************************************
+// **************** We use these to clearly label what our synchronous Action Creator functions do ****************
 
 const PERSONALS = 'accounts/PERSONALS';
 const COMMUNALS = 'accounts/COMMUNALS';
