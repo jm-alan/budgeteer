@@ -149,35 +149,27 @@ export default function reducer (
   },
   { type, account, item, personals, communals, current, id }
 ) {
+  account && account.balance && (
+    personals = { ...state.personals, [account.id]: account }
+  );
+  account && account.balance === undefined && (
+    communals = { ...state.communals, [account.id]: account }
+  );
+  const list = returnAllOrOne(
+    state.selected, personals ?? state.personals, communals ?? state.communals
+  );
   switch (type) {
     case PERSONALS:
-      return {
-        ...state,
-        personals,
-        list: returnAllOrOne(state.selected, personals, state.communals)
-      };
+      return { ...state, personals, list };
     case COMMUNALS:
-      return {
-        ...state,
-        communals,
-        list: returnAllOrOne(state.selected, state.personals, communals)
-      };
+      return { ...state, communals, list };
     case CURRENT:
       return { ...state, current };
     case ADD_PERSONAL:
       personals = { ...state.personals, [account.id]: account };
-      return {
-        ...state,
-        personals,
-        list: returnAllOrOne(state.selected, personals, state.communals)
-      };
+      return { ...state, personals, list };
     case ADD_COMMUNAL:
-      communals = { ...state.communals, [account.id]: account };
-      return {
-        ...state,
-        communals,
-        list: returnAllOrOne(state.selected, state.personals, communals)
-      };
+      return { ...state, communals, list };
     case ADD_PERSONAL_ITEM:
       state.personals[item.accountId].Items.push(item);
       return {
@@ -221,7 +213,6 @@ export default function reducer (
           ...Object.values(state.personals),
           ...Object.values(state.communals)
         ],
-        // Here we set that state.selected property we use above
         selected: 'all'
       };
     case SELECT_PERSONALS:
@@ -237,7 +228,7 @@ export default function reducer (
         selected: 'communals'
       };
     case UNLOAD:
-      return { list: [], personals: {}, communals: {}, current: null };
+      return { list: [], personals: {}, communals: {}, current: null, selected: 'all' };
     default:
       return state;
   }
