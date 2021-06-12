@@ -143,6 +143,24 @@ export default function reducer (
       return { ...state, communals };
     case CURRENT:
       return { ...state, current };
+    case ADD_PERSONAL:
+      return {
+        ...state,
+        personals: {
+          ...state.personals,
+          [account.id]: account
+        },
+        list: returnAllOrOne(state.selected, state.personals, state.communals)
+      };
+    case ADD_COMMUNAL:
+      return {
+        ...state,
+        communals: {
+          ...state.communals,
+          [account.id]: account
+        },
+        list: returnAllOrOne(state.selected, state.personals, state.communals)
+      };
     case DELETE_PERSONAL:
       delete state.personals[id];
       return {
