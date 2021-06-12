@@ -50,19 +50,8 @@ export default function NewAccountForm () {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!communal) {
-      dispatch(CreatePersonal({ name, balance }))
-        .then(() => {
-          dispatch(SetCurrentModal(null));
-          dispatch(HideModal());
-        });
-    } else {
-      dispatch(CreateCommunal({ name }))
-        .then(() => {
-          dispatch(SetCurrentModal(null));
-          dispatch(HideModal());
-        });
-    }
+    if (!communal) dispatch(CreatePersonal({ name, balance }));
+    else dispatch(CreateCommunal({ name }));
   };
 
   return (
