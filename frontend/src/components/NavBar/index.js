@@ -27,8 +27,6 @@ export default function NavBar () {
     dispatch(ShowModal());
   };
 
-  const hidebar = () => dispatch(HideBar());
-
   const logOut = () => dispatch(LogOut());
 
   const hamburgerClick = (e) => {
@@ -38,9 +36,10 @@ export default function NavBar () {
   };
 
   useEffect(() => {
+    const hidebar = () => dispatch(HideBar());
     if (sidebar && !modal) document.addEventListener('click', hidebar);
     return () => document.removeEventListener('click', hidebar);
-  }, [sidebar, modal]);
+  }, [sidebar, modal, dispatch]);
 
   return (
     <nav className={sidebar ? 'grow' : 'shrink'}>
