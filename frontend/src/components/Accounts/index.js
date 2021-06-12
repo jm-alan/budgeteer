@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CurrentAccount from './CurrentAccount';
-import NewAccountForm from './New';
+import NewAccountForm from './NewAccount';
+import AccountListEntry from './AccountListEntry';
 import {
   GetAllCommunals,
   GetAllPersonals,
@@ -13,7 +14,6 @@ import {
 } from '../../store/accounts';
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
-import AccountListEntry from './AccountListEntry';
 
 import './index.css';
 
