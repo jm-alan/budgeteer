@@ -24,7 +24,7 @@ export default function App () {
   }, [dispatch]);
 
   return loaded && (
-    <>
+    <div className='site-visual-organizer'>
       <NavBar />
       <Switch>
         <Route exact path='/'>
@@ -35,6 +35,7 @@ export default function App () {
           <AccountPage />
         </Route>
       </Switch>
-    </>
+      </div>
+    </div>
   );
 }
