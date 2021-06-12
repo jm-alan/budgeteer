@@ -28,10 +28,10 @@ router.delete('/communals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req,
   if (
     !user.validatePass(password)
   ) throw new RequestError('Invalid password', 'The password provided was incorrect', 401);
-  const account = (await user.getCommunals({ where: { id } }))[0];
+  const account = (await user.getCommunes({ where: { id } }))[0];
   if (!account) return res.json({ success: true });
   try {
-    await user.removeCommunal(account);
+    await user.removeCommune(account);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
