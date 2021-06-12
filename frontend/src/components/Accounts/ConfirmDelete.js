@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Error from '../Forms/Error';
 import { DeleteCommunal, DeletePersonal } from '../../store/accounts';
+import AuthForm from '../Forms';
 
 export default function ConfirmDelete () {
   const dispatch = useDispatch();
@@ -40,45 +40,43 @@ export default function ConfirmDelete () {
   };
 
   return account && (
-    <>
-      <Error error={error} />
-      <form
-        className='confirm-delete'
-        onSubmit={onSubmit}
-      >
-        <div className='confirm-delete-warning'>
-          Are you sure you want to
-          <span className='account-warning preamble'>
-            {' permanently delete '}
-          </span>
-          your
-          <span className='account-warning name'>
-            {` ${account.name} `}
-          </span>
-          account?
-          <br />
-          Please enter the account name (<strong>{account.name}</strong>) and your password below to confirm.
-        </div>
-        <input
-          className='form-input'
-          type='text'
-          value={confirmName}
-          placeholder={account.name}
-          required
-          onChange={({ target: { value } }) => setConfirmName(value)}
-        />
-        <input
-          className='form-input'
-          value={password}
-          placeholder='password'
-          type='password'
-          required
-          onChange={({ target: { value } }) => setPassword(value)}
-        />
-        <button className='form-button' type='submit'>
-          Confirm
-        </button>
-      </form>
-    </>
+    <AuthForm
+      error={error}
+      className='confirm-delete'
+      onSubmit={onSubmit}
+    >
+      <div className='confirm-delete-warning'>
+        Are you sure you want to
+        <span className='account-warning preamble'>
+          {' permanently delete '}
+        </span>
+        your
+        <span className='account-warning name'>
+          {` ${account.name} `}
+        </span>
+        account?
+        <br />
+        Please enter the account name (<strong>{account.name}</strong>) and your password below to confirm.
+      </div>
+      <input
+        className='form-input'
+        type='text'
+        value={confirmName}
+        placeholder={account.name}
+        required
+        onChange={({ target: { value } }) => setConfirmName(value)}
+      />
+      <input
+        className='form-input'
+        value={password}
+        placeholder='password'
+        type='password'
+        required
+        onChange={({ target: { value } }) => setPassword(value)}
+      />
+      <button className='form-button' type='submit'>
+        Confirm
+      </button>
+    </AuthForm>
   );
 }
