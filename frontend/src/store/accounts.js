@@ -166,20 +166,14 @@ export default function reducer (
       return {
         ...state,
         personals: { ...state.personals },
-        list: [
-          ...Object.values(state.personals),
-          ...Object.values(state.communals)
-        ]
+        list: returnAllOrOne(state.selected, state.personals, state.communals)
       };
     case DELETE_COMMUNAL:
       delete state.communals[id];
       return {
         ...state,
         communals: { ...state.communals },
-        list: [
-          ...Object.values(state.personals),
-          ...Object.values(state.communals)
-        ]
+        list: returnAllOrOne(state.selected, state.personals, state.communals)
       };
     case SELECT_ALL:
       return {
