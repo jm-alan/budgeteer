@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { CreateCommunal, CreatePersonal } from '../../store/accounts';
-import { SetCurrentModal } from '../../store/modal';
-import { HideModal } from '../../store/UX';
 
 export default function NewAccountForm () {
   const dispatch = useDispatch();
