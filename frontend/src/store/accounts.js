@@ -181,3 +181,10 @@ export default function reducer (
       return state;
   }
 }
+
+// eslint-disable-next-line no-unused-vars
+function returnAllOrOne (selected, personals, communals) {
+  if (selected === 'all') return [...Object.values(personals), ...Object.values(communals)];
+  else if (selected === 'personals') return Object.values(personals);
+  else if (selected === 'communals') return Object.values(communals);
+}
