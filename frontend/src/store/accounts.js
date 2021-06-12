@@ -150,7 +150,14 @@ export default function reducer (
           ...state.personals,
           [account.id]: account
         },
-        list: returnAllOrOne(state.selected, state.personals, state.communals)
+        list: returnAllOrOne(
+          state.selected,
+          {
+            ...state.personals,
+            [account.id]: account
+          },
+          state.communals
+        )
       };
     case ADD_COMMUNAL:
       return {
@@ -159,7 +166,14 @@ export default function reducer (
           ...state.communals,
           [account.id]: account
         },
-        list: returnAllOrOne(state.selected, state.personals, state.communals)
+        list: returnAllOrOne(
+          state.selected,
+          state.personals,
+          {
+            ...state.communals,
+            [account.id]: account
+          }
+        )
       };
     case DELETE_PERSONAL:
       delete state.personals[id];
