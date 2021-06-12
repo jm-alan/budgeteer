@@ -56,6 +56,9 @@ export const SetCurrentAccount = current => ({
   current
 });
 
+// ********************** Notice not all of my synchronous action creators take in arguments **********************
+// ****** That's because sometimes I just need to trigger logic in my reducer for information I already have ******
+
 export const SelectAll = () => ({
   type: SELECT_ALL
 });
