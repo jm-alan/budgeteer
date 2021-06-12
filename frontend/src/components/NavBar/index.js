@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -12,16 +13,21 @@ export default function NavBar () {
 
   const user = useSelector(state => state.session.user);
   const sidebar = useSelector(state => state.UX.sidebar);
+  const modal = useSelector(state => state.UX.modal);
 
-  const popSignup = () => {
+  const popSignup = (e) => {
+    e.stopPropagation();
     dispatch(SetCurrentModal(SignUpForm));
     dispatch(ShowModal());
   };
 
-  const popLogin = () => {
+  const popLogin = (e) => {
+    e.stopPropagation();
     dispatch(SetCurrentModal(LogInForm));
     dispatch(ShowModal());
   };
+
+  const hidebar = () => dispatch(HideBar());
 
   const logOut = () => dispatch(LogOut());
 
@@ -30,6 +36,11 @@ export default function NavBar () {
     !sidebar && dispatch(SideBar());
     sidebar && dispatch(HideBar());
   };
+
+  useEffect(() => {
+    if (sidebar && !modal) document.addEventListener('click', hidebar);
+    return () => document.removeEventListener('click', hidebar);
+  }, [sidebar, modal]);
 
   return (
     <nav className={sidebar ? 'grow' : 'shrink'}>
@@ -73,18 +84,24 @@ export default function NavBar () {
             )
           : (
             <>
-              <button
-                className='navigation signup'
-                onClick={popSignup}
-              >
-                Sign Up
-              </button>
-              <button
-                className='navigation login'
-                onClick={popLogin}
-              >
-                Log In
-              </button>
+              <div className='highlighter-wrapper'>
+                <button
+                  className='navigation signup'
+                  onClick={popSignup}
+                >
+                  Sign Up
+                </button>
+                <div className='highlighter' />
+              </div>
+              <div className='highlighter-wrapper'>
+                <button
+                  className='navigation login'
+                  onClick={popLogin}
+                >
+                  Log In
+                </button>
+                <div className='highlighter' />
+              </div>
             </>
             )}
       </div>
