@@ -5,14 +5,19 @@ export default function CurrentAccount () {
 
   return current && (
     <div className='subcontainer current-account'>
-      <div className='subcontainer current-account-name'>
-        {current.name}
-      </div>
-      {(current.balance && (
-        <div className='subcontainer current-account-balance'>
-          {current.balance}
+      <div className='subcontainer current-account-header'>
+        <div className='subcontainer current-account-name'>
+          {current.name}
         </div>
-      )) ?? null}
+        {(current.balance && (
+          <div className='subcontainer current-account-balance'>
+            ${current.balance}
+          </div>
+        )) ?? null}
+        <div className='subcontainer current-account-new-item'>
+          <button className='new-item'>+ New Item</button>
+        </div>
+      </div>
       <div className='subcontainer current-account-transaction-items'>
         {current.Items.map((item, idx) => (
           <div
