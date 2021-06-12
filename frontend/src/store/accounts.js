@@ -181,12 +181,21 @@ export default function reducer (
         list: [
           ...Object.values(state.personals),
           ...Object.values(state.communals)
-        ]
+        ],
+        selected: 'all'
       };
     case SELECT_PERSONALS:
-      return { ...state, list: Object.values(state.personals) };
+      return {
+        ...state,
+        list: Object.values(state.personals),
+        selected: 'personals'
+      };
     case SELECT_COMMUNALS:
-      return { ...state, list: Object.values(state.communals) };
+      return {
+        ...state,
+        list: Object.values(state.communals),
+        selected: 'communals'
+      };
     case UNLOAD:
       return { list: [], personals: {}, communals: {}, current: null };
     default:
