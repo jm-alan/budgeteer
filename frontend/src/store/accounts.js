@@ -31,6 +31,16 @@ const setCommunals = communals => ({
   communals
 });
 
+const addPersonal = account => ({
+  type: ADD_PERSONAL,
+  account
+});
+
+const addCommunal = account => ({
+  type: ADD_COMMUNAL,
+  account
+});
+
 const deletePersonal = id => ({
   type: DELETE_PERSONAL,
   id
