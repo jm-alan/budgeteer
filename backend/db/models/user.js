@@ -18,6 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       return { id, firstName, username, email };
     }
 
+    async findPersonalByPk (id) {
+      return (await this.getPersonals({ where: { id } }))[0] ?? null;
+    }
+
+    async findCommunalByPk (id) {
+      return (await this.getCommunals({ where: { id } }))[0] ?? null;
+    }
+
     static async LogIn ({ identification, password }) {
       const errors = [];
       if (!identification) errors.push(new ValidationErrorItem('Please provide a username or email'));
