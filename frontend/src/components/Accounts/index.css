@@ -10,16 +10,15 @@
   color: red;
 }
 
-form.confirm-delete {
-  margin-top: 10px;
-}
-
 .account-list-item {
+  cursor: pointer;
+  width: 100%;
   display: flex;
+  justify-content: space-around;
   font-size: 1.25em;
   align-items: center;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px grey;
+  box-shadow: 0px 0px 3px grey;
   margin: 1em 0px;
 }
 
@@ -28,9 +27,22 @@ form.confirm-delete {
 }
 
 .account-delete {
+  padding: 0px;
+  height: 15px;
+  width: 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: unset;
   border: none;
   color: red;
   font-weight: bolder;
   font-size: 1.25em;
+}
+
+.account-delete:hover {
+  background-color: red;
+  color: white;
 }

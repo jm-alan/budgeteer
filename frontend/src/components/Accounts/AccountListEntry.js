@@ -7,13 +7,19 @@ import ConfirmDelete from './ConfirmDelete';
 
 export default function AccountListEntry ({ account }) {
   const dispatch = useDispatch();
+
+  const onSelectAccount = () => dispatch(SetCurrentAccount(account));
+
   const onDelete = () => {
-    dispatch(SetCurrentAccount(account));
     dispatch(SetCurrentModal(ConfirmDelete));
     dispatch(ShowModal());
   };
+
   return (
-    <div className='account-list-item'>
+    <div
+      className='account-list-item'
+      onClick={onSelectAccount}
+    >
       <div className='account-name'>
         {account.name}
       </div>
