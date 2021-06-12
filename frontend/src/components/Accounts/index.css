@@ -13,3 +13,24 @@
 form.confirm-delete {
   margin-top: 10px;
 }
+
+.account-list-item {
+  display: flex;
+  font-size: 1.25em;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px grey;
+  margin: 1em 0px;
+}
+
+.account-name {
+  margin-right: 10px;
+}
+
+.account-delete {
+  background-color: unset;
+  border: none;
+  color: red;
+  font-weight: bolder;
+  font-size: 1.25em;
+}

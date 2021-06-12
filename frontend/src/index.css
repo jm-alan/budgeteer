@@ -1,3 +1,125 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+}
+
+.site-visual-organizer {
+  display: flex;
+}
+
+nav {
+  height: 100vh;
+  overflow: hidden;
+  background-color: blanchedalmond;
+  transition: width 0.35s;
+}
+
+.nav-sliding-container {
+  width: 150px;
+  position: relative;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 50px);
+  transition: all 0.35s;
+}
+
+nav.grow {
+  width: 150px;
+}
+
+nav.shrink {
+  width: 50px;
+}
+
+nav.shrink > .nav-sliding-container {
+  right: 150px;
+}
+
+nav.grow > .nav-sliding-container {
+  right: 0;
+}
+
+.nav-sliding-container > *:not(.navbar-display) {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 150px;
+  margin: .75em 0;
+}
+
+.highlighter {
+  position: absolute;
+  right: 130px;
+  background-color: white;
+  height: 3em;
+  width: 150px;
+  transition: right 0.2s;
+  z-index: 1;
+}
+
+.nav-sliding-container button {
+  cursor: pointer;
+  width: 150px;
+  border: none;
+  background-color: unset;
+  padding: 1.25em 0;
+  font-size: 1em;
+}
+
+.nav-sliding-container > .highlighter-wrapper > *:hover ~ .highlighter {
+  right: 0;
+}
+
+.highlighter-wrapper > :not(.highlighter) {
+  z-index: 2;
+}
+
+.main-site-container {
+  transition: width 0.35s;
+  height: 100vh;
+}
+
+.main-site-container.shrink {
+  width: calc(100vw - 150px);
+}
+
+.main-site-container.grow {
+  width: calc(100vw - 50px);
+}
+
+.navbar-display {
+  cursor: pointer;
+  padding: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  top: 5px;
+  left: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: unset;
+  border: none;
+}
+
+.navbar-hamburger {
+  transition: all 0.35s;
+  background-color: white;
+  height: 20%;
+  width: 100%;
+}
+
+.navbar-display.close > .top {
+  width: 80%;
+  transform:  translateX(-6px) translateY(7.5px) rotate(-45deg);
+}
+
+.navbar-display.close > .bottom {
+  width: 80%;
+  transform:  translateX(-6px) translateY(-7.5px) rotate(45deg);
+}
