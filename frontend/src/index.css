@@ -7,7 +7,9 @@ body {
 }
 
 .site-visual-organizer {
+  position: fixed;
   display: flex;
+  min-width: 360px;
 }
 
 nav {
@@ -80,8 +82,9 @@ nav.grow > .nav-sliding-container {
 }
 
 .main-site-container {
-  transition: width 0.35s;
+  transition: all 0.35s;
   height: 100vh;
+  padding: 0 20px;
 }
 
 .main-site-container.shrink {
@@ -122,4 +125,22 @@ nav.grow > .nav-sliding-container {
 .navbar-display.close > .bottom {
   width: 80%;
   transform:  translateX(-6px) translateY(-7.5px) rotate(45deg);
+}
+
+@media screen and (max-width: 500px) {
+  .main-site-container {
+    position: fixed;
+  }
+
+  .main-site-container.grow {
+    left: 50px;
+    width: calc(100vw - 50px);
+    min-width: 310px;
+  }
+
+  .main-site-container.shrink {
+    left: 150px;
+    width: calc(100vw - 50px);
+    min-width: 310px;
+  }
 }
