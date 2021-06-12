@@ -1,4 +1,6 @@
 import csrfetch from './csrf';
+import { SetCurrentModal } from './modal';
+import { HideModal } from './UX';
 
 const USER = 'session/USER';
 
@@ -21,12 +23,15 @@ export const RestoreUser = () => async dispatch => {
 export const LogIn = credentials => async dispatch => {
   const { user } = await csrfetch.post('/api/session/', credentials);
   dispatch(setSession(user));
-  if (!user) throw new Error('Invalid username or password');
+  dispatch(SetCurrentModal(null));
+  dispatch(HideModal());
 };
 
 export const SignUp = newUser => async dispatch => {
   const { user } = await csrfetch.post('/api/users/', newUser);
   dispatch(setSession(user));
+  dispatch(SetCurrentModal(null));
+  dispatch(HideModal());
 };
 
 export const LogOut = () => async dispatch => {
