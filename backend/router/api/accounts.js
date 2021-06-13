@@ -8,43 +8,14 @@ import { Item } from '../../db/models';
 const router = Router();
 
 router.delete(
-  '/personals/:accountId(\\d+)/items/:itemId/',
+  '/:accountType(communals|personals)/:accountId(\\d+)/items/:itemId/',
   restoreOrReject,
   asyncHandler(async (req, res) => {
-    const { user, params: { accountId, itemId } } = req;
-    const account = user.findPersonalByPk(accountId);
-    if (!account) {
-      throw new RequestError(
-        'Account not found',
-        'An account with that ID belonging to this user does not exist.',
-        404
-      );
-    }
-    const item = Item.findByPk(itemId);
-    if (!item || !account.hasItem(item) || !user.hasItem(item)) {
-      throw new RequestError(
-        'Transaction not found',
-        'A transaction item with that ID was not found on this account',
-        404
-      );
-    }
-    try {
-      await item.destroy();
-      res.json({ success: true });
-    } catch (err) {
-      console.error(err);
-      console.error(err.toString());
-      res.json({ success: false });
-    }
-  })
-);
-
-router.delete(
-  '/communals/:accountId(\\d+)/items/:itemId/',
-  restoreOrReject,
-  asyncHandler(async (req, res) => {
-    const { user, params: { accountId, itemId } } = req;
-    const account = user.findCommunalByPk(accountId);
+    const { user, params: { accountId, itemId, accountType } } = req;
+    const findFuncName = `find${
+      accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
+    }ByPk`;
+    const account = user[findFuncName](accountId);
     if (!account) {
       throw new RequestError(
         'Account not found',
@@ -76,11 +47,10 @@ router.post(
   restoreOrReject,
   asyncHandler(async (req, res) => {
     const { user, params: { id, accountType }, body } = req;
-    const account = await user[
-    `find${
+    const findFuncName = `find${
       accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
-    }ByPk`
-    ](id);
+    }ByPk`;
+    const account = await user[findFuncName](id);
     if (!account) {
       throw new RequestError(
         'Account not found',
@@ -112,11 +82,10 @@ router.delete('/:accountType(communals|personals)/:id(\\d+)/', restoreOrReject, 
       401
     );
   }
-  const account = await user[
-  `find${
+  const findFuncName = `find${
     accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
-  }ByPk`
-  ](id);
+  }ByPk`;
+  const account = await user[findFuncName](id);
   if (!account) {
     throw new RequestError(
       'Account not found',
