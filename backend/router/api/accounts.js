@@ -39,6 +39,38 @@ router.delete(
   })
 );
 
+router.delete(
+  '/communals/:accountId(\\d+)/items/:itemId/',
+  restoreOrReject,
+  asyncHandler(async (req, res) => {
+    const { user, params: { accountId, itemId } } = req;
+    const account = user.findCommunalByPk(accountId);
+    if (!account) {
+      throw new RequestError(
+        'Account not found',
+        'An account with that ID belonging to this user does not exist.',
+        404
+      );
+    }
+    const item = Item.findByPk(itemId);
+    if (!item || !account.hasItem(item) || !user.hasItem(item)) {
+      throw new RequestError(
+        'Transaction not found',
+        'A transaction item with that ID was not found on this account',
+        404
+      );
+    }
+    try {
+      await item.destroy();
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      console.error(err.toString());
+      res.json({ success: false });
+    }
+  })
+);
+
 router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body } = req;
   const account = await user.findPersonalByPk(id);
