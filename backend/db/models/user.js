@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     async findCommunalByPk (id) {
-      return (await this.getCommunals({ where: { id } }))[0] ?? null;
+      return (await this.getCommunes({ where: { id } }))[0] ?? null;
     }
 
     static async LogIn ({ identification, password }) {
