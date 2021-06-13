@@ -174,23 +174,13 @@ export default function reducer (
       state.personals[item.accountId].Items.push(item);
       return {
         ...state,
-        personals: {
-          ...state.personals,
-          [item.accountId]: {
-            ...state.personals[item.accountId]
-          }
-        }
+        current: { ...state.personals[item.accountId] }
       };
     case ADD_COMMUNAL_ITEM:
       state.communals[item.accountId].Items.push(item);
       return {
         ...state,
-        communals: {
-          ...state.communals,
-          [item.accountId]: {
-            ...state.communals[item.accountId]
-          }
-        }
+        current: { ...state.communals[item.accountId] }
       };
     case DELETE_PERSONAL:
       delete state.personals[id];

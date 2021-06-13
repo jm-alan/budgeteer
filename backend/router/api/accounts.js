@@ -8,21 +8,21 @@ const router = Router();
 
 router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body } = req;
-  const account = user.getPersonalByPk(id);
+  const account = await user.findPersonalByPk(id);
   if (
     !account
   ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
-  const item = account.createItem(body);
+  const item = await account.createItem({ ...body, ownerId: user.id });
   res.json({ item });
 }));
 
 router.post('/communals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body } = req;
-  const account = user.getCommunalByPk(id);
+  const account = await user.findCommunalByPk(id);
   if (
     !account
   ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
-  const item = account.createItem(body);
+  const item = await account.createItem({ ...body, ownerId: user.id });
   res.json({ item });
 }));
 
