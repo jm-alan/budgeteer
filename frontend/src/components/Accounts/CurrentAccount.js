@@ -1,7 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import NewItem from './NewItem';
+import { SetCurrentModal } from '../../store/modal';
+import { ShowModal } from '../../store/UX';
 
 export default function CurrentAccount () {
+  const dispatch = useDispatch();
+
   const current = useSelector(state => state.accounts.current);
+
+  const popNewItem = () => {
+    dispatch(SetCurrentModal(NewItem));
+    dispatch(ShowModal());
+  };
 
   return current && (
     <div className='subcontainer current-account'>
@@ -15,7 +26,11 @@ export default function CurrentAccount () {
           </div>
         )) ?? null}
         <div className='subcontainer current-account-new-item'>
-          <button className='new-item'>+ New Item</button>
+          <button
+            className='new-item'
+            onClick={popNewItem}
+          >+ New Item
+          </button>
         </div>
       </div>
       <div className='subcontainer current-account-transaction-items'>
