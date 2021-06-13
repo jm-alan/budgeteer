@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(mainIndex);
   });
 
-  router.use(express.static(resolve('../webapp/build')));
+  router.use(express.static(resolve('../frontend/build')));
 
   router.get(/^(?!\/?api).*/, (req, res) => {
     res.sendFile(mainIndex);
