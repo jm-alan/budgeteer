@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NewItem from './NewItem';
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
+import TransactionItem from './TransactionItem';
 
 export default function CurrentAccount () {
   const dispatch = useDispatch();
@@ -35,17 +36,7 @@ export default function CurrentAccount () {
       </div>
       <div className='subcontainer current-account-transaction-items'>
         {current.Items.map((item, idx) => (
-          <div
-            key={idx}
-            className={`transaction-item${item.income ? ' income' : ' expense'}`}
-          >
-            <div className='transaction-item-name'>
-              {item.name}
-            </div>
-            <div className='transaction-item-amount'>
-              {item.amount}
-            </div>
-          </div>
+          <TransactionItem key={idx} item={item} />
         ))}
       </div>
     </div>
