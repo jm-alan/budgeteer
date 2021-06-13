@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateCommunalItem, CreatePersonalItem } from '../../store/accounts';
+import { CreateCommunalItem, CreatePersonalItem } from '../../store/accounts/actions';
 import { createEffect, createValidator } from '../../utils/validate';
 import AuthForm from '../Forms';
 

@@ -11,7 +11,7 @@ import {
   SelectCommunals,
   SelectPersonals,
   UnloadAccounts
-} from '../../store/accounts';
+} from '../../store/accounts/actions';
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
 

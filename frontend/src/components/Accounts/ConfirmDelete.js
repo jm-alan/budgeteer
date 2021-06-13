@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DeleteCommunal, DeletePersonal } from '../../store/accounts';
+import { DeleteCommunal, DeletePersonal } from '../../store/accounts/actions';
 import AuthForm from '../Forms';
 
 export default function ConfirmDelete () {
