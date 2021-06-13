@@ -30,7 +30,8 @@ export default function CurrentAccount () {
           <button
             className='new-item'
             onClick={popNewItem}
-          >+ New Item
+          >
+            + New Item
           </button>
         </div>
       </div>

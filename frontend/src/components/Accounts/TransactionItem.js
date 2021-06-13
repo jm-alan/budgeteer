@@ -8,7 +8,7 @@ export default function TransactionItem ({ item }) {
   const onDelete = () => {};
   return (
     <div
-      className={`transaction-item${
+      className={`entry-item${
         item.income ? ' income' : ' expense'
       }`}
     >

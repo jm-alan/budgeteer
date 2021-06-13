@@ -17,14 +17,14 @@ export default function AccountListEntry ({ account }) {
 
   return (
     <div
-      className='account-list-item'
+      className='entry-item'
       onClick={onSelectAccount}
     >
       <div className='account-name'>
         {account.name}
       </div>
       <button
-        className='account-delete'
+        className='entry-delete'
         onClick={onDelete}
       >
         -

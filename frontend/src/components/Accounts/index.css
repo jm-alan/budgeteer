@@ -37,7 +37,12 @@
   justify-content: space-around;
 }
 
-.account-list-item {
+.subcontainer > .current-account-transaction-items {
+  min-width: 350px;
+  max-width: 350px;
+}
+
+.entry-item {
   cursor: pointer;
   width: 100%;
   display: flex;
@@ -54,7 +59,7 @@
   margin-right: 10px;
 }
 
-.account-delete {
+.entry-delete {
   padding: 0px;
   height: 25px;
   width: 25px;
@@ -70,7 +75,7 @@
   font-size: 1.5em;
 }
 
-.account-delete:hover {
+.entry-delete:hover {
   background-color: red;
   color: white;
 }
