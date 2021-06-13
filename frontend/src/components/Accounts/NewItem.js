@@ -22,10 +22,12 @@ export default function NewItem () {
     setAmount, setShouldMoveCursor, setCursorMovedOnce
   );
 
-  useEffect(createEffect(
-    amount, amountRef, shouldMoveCursor,
-    setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
-  ), [amount, shouldMoveCursor, cursorMovedOnce]);
+  useEffect(() => {
+    createEffect(
+      amount, amountRef, shouldMoveCursor,
+      setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
+    )();
+  }, [amount, shouldMoveCursor, cursorMovedOnce]);
 
   const onSubmit = e => {
     e.preventDefault();

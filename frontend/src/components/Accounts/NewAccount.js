@@ -21,10 +21,12 @@ export default function NewAccount () {
     setBalance, setShouldMoveCursor, setCursorMovedOnce
   );
 
-  useEffect(createEffect(
-    balance, balanceRef, shouldMoveCursor,
-    setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
-  ), [balance, shouldMoveCursor, cursorMovedOnce]);
+  useEffect(() => {
+    createEffect(
+      balance, balanceRef, shouldMoveCursor,
+      setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
+    )();
+  }, [balance, shouldMoveCursor, cursorMovedOnce]);
 
   const onSubmit = e => {
     e.preventDefault();
