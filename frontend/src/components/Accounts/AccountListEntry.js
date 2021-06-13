@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { SetCurrentAccount } from '../../store/accounts/actions';
+import { SetCurrentAccount } from '../../store/accounts/syncs';
 
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
