@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     income: DataTypes.BOOLEAN,
     accountType: DataTypes.STRING,
     accountId: DataTypes.INTEGER,
-    ownerId: DataTypes.INTEGER
+    ownerId: DataTypes.INTEGER,
+    details: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Item'
