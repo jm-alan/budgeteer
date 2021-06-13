@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       return (await this.getCommunes({ where: { id } }))[0] ?? null;
     }
 
+    async createCommunal (options) {
+      return await this.createCommune(options);
+    }
+
     static async LogIn ({ identification, password }) {
       const errors = [];
       if (!identification) errors.push(new ValidationErrorItem('Please provide a username or email'));
