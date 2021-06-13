@@ -103,8 +103,8 @@ router.post(
   })
 );
 
-router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { id }, body: { password } } = req;
+router.delete('/:accountType(communals|personals)/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, params: { id, accountType }, body: { password } } = req;
   if (!user.validatePass(password)) {
     throw new RequestError(
       'Invalid password',
@@ -112,31 +112,21 @@ router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req,
       401
     );
   }
-  const account = await user.findPersonalByPk(id);
-  if (!account) return res.json({ success: true });
-  try {
-    await account.destroy();
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    console.error(err.toString());
-    res.json({ success: false });
-  }
-}));
-
-router.delete('/communals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { id }, body: { password } } = req;
-  if (!user.validatePass(password)) {
+  const account = await user[
+  `find${
+    accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
+  }ByPk`
+  ](id);
+  if (!account) {
     throw new RequestError(
-      'Invalid password',
-      'The password provided was incorrect',
-      401
+      'Account not found',
+      'An account with that ID belonging to this user does not exist',
+      404
     );
   }
-  const account = await user.findCommunalByPk(id);
-  if (!account) return res.json({ success: true });
   try {
-    await user.removeCommune(account);
+    if (account.balance === undefined) await user.removeCommune(account);
+    else await account.destroy();
     res.json({ success: true });
   } catch (err) {
     console.error(err);
