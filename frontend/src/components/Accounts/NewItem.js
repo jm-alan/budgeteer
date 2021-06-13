@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CreateCommunalItem, CreatePersonalItem } from '../../store/accounts/asyncs';
-import { createEffect, createValidator } from '../../utils/validate';
+import CurrencyInput from '../../utils/validate';
 import AuthForm from '../Forms';
 
 export default function NewItem () {
@@ -12,22 +12,7 @@ export default function NewItem () {
   const [name, setName] = useState('');
   const [income, setIsIncome] = useState(false);
   const [amount, setAmount] = useState('');
-  const [shouldMoveCursor, setShouldMoveCursor] = useState(true);
-  const [cursorMovedOnce, setCursorMovedOnce] = useState(false);
   const [error, setError] = useState(null);
-
-  const amountRef = useRef(null);
-
-  const validateAmount = createValidator(
-    setAmount, setShouldMoveCursor, setCursorMovedOnce
-  );
-
-  useEffect(() => {
-    createEffect(
-      amount, amountRef, shouldMoveCursor,
-      setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
-    )();
-  }, [amount, shouldMoveCursor, cursorMovedOnce]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -65,13 +50,11 @@ export default function NewItem () {
         onChange={({ target: { value } }) => setName(value)}
         className='form-input'
       />
-      <input
-        type='text'
-        required
+      <CurrencyInput
         placeholder='Amount 0.00'
+        required
         value={amount}
-        onChange={validateAmount}
-        className='form-input'
+        setValue={setAmount}
       />
       <button
         className='form-button'

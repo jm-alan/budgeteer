@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { CreateCommunal, CreatePersonal } from '../../store/accounts/asyncs';
-import { createEffect, createValidator } from '../../utils/validate';
+import CurrencyInput from '../../utils/validate';
 import AuthForm from '../Forms';
 
 export default function NewAccount () {
@@ -11,22 +11,7 @@ export default function NewAccount () {
   const [name, setName] = useState('');
   const [communal, setCommunal] = useState(false);
   const [balance, setBalance] = useState('');
-  const [shouldMoveCursor, setShouldMoveCursor] = useState(true);
-  const [cursorMovedOnce, setCursorMovedOnce] = useState(false);
   const [error, setError] = useState(null);
-
-  const balanceRef = useRef(null);
-
-  const validateBalance = createValidator(
-    setBalance, setShouldMoveCursor, setCursorMovedOnce
-  );
-
-  useEffect(() => {
-    createEffect(
-      balance, balanceRef, shouldMoveCursor,
-      setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
-    )();
-  }, [balance, shouldMoveCursor, cursorMovedOnce]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -63,14 +48,11 @@ export default function NewAccount () {
         className='form-input'
       />
       {!communal && (
-        <input
-          ref={balanceRef}
-          type='text'
-          id='starting-balance'
-          placeholder='Starting balance 0.00'
-          className='form-input'
-          onChange={validateBalance}
+        <CurrencyInput
+          placeholder='Starting Balance 0.00'
+          required
           value={balance}
+          setValue={setBalance}
         />
       )}
       <button
