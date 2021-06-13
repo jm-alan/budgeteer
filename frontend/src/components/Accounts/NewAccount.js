@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { CreateCommunal, CreatePersonal } from '../../store/accounts';
 import { createEffect, createValidator } from '../../utils/validate';
+import AuthForm from '../Forms';
 
 export default function NewAccount () {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ export default function NewAccount () {
   const [balance, setBalance] = useState('');
   const [shouldMoveCursor, setShouldMoveCursor] = useState(true);
   const [cursorMovedOnce, setCursorMovedOnce] = useState(false);
+  const [error, setError] = useState(null);
 
   const balanceRef = useRef(null);
 
@@ -22,20 +24,23 @@ export default function NewAccount () {
   useEffect(createEffect(
     balance, balanceRef, shouldMoveCursor,
     setShouldMoveCursor, cursorMovedOnce, setCursorMovedOnce
-  ),
-  [balance, shouldMoveCursor, cursorMovedOnce]
-  );
+  ), [balance, shouldMoveCursor, cursorMovedOnce]);
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
-    if (!communal) dispatch(CreatePersonal({ name, balance }));
-    else dispatch(CreateCommunal({ name }));
+    if (!communal) {
+      dispatch(CreatePersonal({ name, balance }))
+        .catch(setError);
+    } else {
+      dispatch(CreateCommunal({ name }))
+        .catch(setError);
+    }
   };
 
   return (
-    <form
-      className='form new-account'
+    <AuthForm
       onSubmit={onSubmit}
+      error={error}
     >
       <label htmlFor='personal'>
         Shared?
@@ -72,6 +77,6 @@ export default function NewAccount () {
       >
         Create
       </button>
-    </form>
+    </AuthForm>
   );
 }
