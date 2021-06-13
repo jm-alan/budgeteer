@@ -71,33 +71,37 @@ router.delete(
   })
 );
 
-router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { id }, body } = req;
-  const account = await user.findPersonalByPk(id);
-  if (!account) {
-    throw new RequestError(
-      'Account not found',
-      'An account with that ID belonging to this user does not exist.',
-      404
-    );
-  }
-  const item = await account.createItem({ ...body, ownerId: user.id });
-  res.json({ item });
-}));
-
-router.post('/communals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, params: { id }, body } = req;
-  const account = await user.findCommunalByPk(id);
-  if (!account) {
-    throw new RequestError(
-      'Account not found',
-      'An account with that ID belonging to this user does not exist.',
-      404
-    );
-  }
-  const item = await account.createItem({ ...body, ownerId: user.id });
-  res.json({ item });
-}));
+router.post(
+  '/:accountType(personals|communals)/:id(\\d+)/items/',
+  restoreOrReject,
+  asyncHandler(async (req, res) => {
+    const { user, params: { id, accountType }, body } = req;
+    const account = await user[
+    `find${
+      accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
+    }ByPk`
+    ](id);
+    if (!account) {
+      throw new RequestError(
+        'Account not found',
+        'An account with that ID belonging to this user does not exist.',
+        404
+      );
+    }
+    try {
+      const item = await account.createItem({ ...body, ownerId: user.id });
+      res.json({ item });
+    } catch (err) {
+      console.error(err);
+      console.error(err.toString());
+      throw new RequestError(
+        'Failed to create transaction item',
+        'Sorry, something went wrong. Please refresh the page and try again',
+        500
+      );
+    }
+  })
+);
 
 router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body: { password } } = req;
