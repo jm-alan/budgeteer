@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       amount: {
-        type: Sequelize.DECIMAL(2)
+        type: Sequelize.DECIMAL(10, 2)
       },
       income: {
         type: Sequelize.BOOLEAN
