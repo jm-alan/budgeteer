@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { CreateCommunal, CreatePersonal } from '../../store/accounts/actions';
+import { CreateCommunal, CreatePersonal } from '../../store/accounts/asyncs';
 import { createEffect, createValidator } from '../../utils/validate';
 import AuthForm from '../Forms';
 
