@@ -1,5 +1,19 @@
 {
-  "rules": {
-    "default-param-last": "off"
-  }
+  "name": "budgeteer",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=16.x"
+  },
+  "description": "Personal finance organization project - React/Redux/Express/Sequelize",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "npm run build --prefix frontend",
+    "install": "npm --prefix backend install backend && npm --prefix frontend install frontend",
+    "sequelize": "npm run --prefix backend sequelize",
+    "sequelize-cli": "npm run --prefix backend sequelize-cli",
+    "start": "npm start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
