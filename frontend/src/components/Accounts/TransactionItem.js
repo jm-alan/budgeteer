@@ -1,5 +1,11 @@
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function TransactionItem ({ item }) {
+  const dispatch = useDispatch();
+
+  const current = useSelector(state => state.accounts.current);
+
+  const onDelete = () => {};
   return (
     <div
       className={`transaction-item${
