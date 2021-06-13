@@ -1,17 +1,54 @@
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 
-import { RequestError } from '../../RequestError';
 import restoreOrReject from '../../utils/restoreOrReject';
+import { RequestError } from '../../RequestError';
+import { Item } from '../../db/models';
 
 const router = Router();
+
+router.delete(
+  '/personals/:accountId(\\d+)/items/:itemId/',
+  restoreOrReject,
+  asyncHandler(async (req, res) => {
+    const { user, params: { accountId, itemId } } = req;
+    const account = user.findPersonalByPk(accountId);
+    if (!account) {
+      throw new RequestError(
+        'Account not found',
+        'An account with that ID belonging to this user does not exist.',
+        404
+      );
+    }
+    const item = Item.findByPk(itemId);
+    if (!item || !account.hasItem(item) || !user.hasItem(item)) {
+      throw new RequestError(
+        'Transaction not found',
+        'A transaction item with that ID was not found on this account',
+        404
+      );
+    }
+    try {
+      await item.destroy();
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      console.error(err.toString());
+      res.json({ success: false });
+    }
+  })
+);
 
 router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body } = req;
   const account = await user.findPersonalByPk(id);
-  if (
-    !account
-  ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
+  if (!account) {
+    throw new RequestError(
+      'Account not found',
+      'An account with that ID belonging to this user does not exist.',
+      404
+    );
+  }
   const item = await account.createItem({ ...body, ownerId: user.id });
   res.json({ item });
 }));
@@ -19,19 +56,27 @@ router.post('/personals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (
 router.post('/communals/:id(\\d+)/items/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body } = req;
   const account = await user.findCommunalByPk(id);
-  if (
-    !account
-  ) throw new RequestError('Account not found', 'An account with that ID belonging to this user does not exist.', 404);
+  if (!account) {
+    throw new RequestError(
+      'Account not found',
+      'An account with that ID belonging to this user does not exist.',
+      404
+    );
+  }
   const item = await account.createItem({ ...body, ownerId: user.id });
   res.json({ item });
 }));
 
 router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body: { password } } = req;
-  if (
-    !user.validatePass(password)
-  ) throw new RequestError('Invalid password', 'The password provided was incorrect', 401);
-  const account = (await user.getPersonals({ where: { id } }))[0];
+  if (!user.validatePass(password)) {
+    throw new RequestError(
+      'Invalid password',
+      'The password provided was incorrect',
+      401
+    );
+  }
+  const account = await user.findPersonalByPk(id);
   if (!account) return res.json({ success: true });
   try {
     await account.destroy();
@@ -45,10 +90,14 @@ router.delete('/personals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req,
 
 router.delete('/communals/:id(\\d+)/', restoreOrReject, asyncHandler(async (req, res) => {
   const { user, params: { id }, body: { password } } = req;
-  if (
-    !user.validatePass(password)
-  ) throw new RequestError('Invalid password', 'The password provided was incorrect', 401);
-  const account = (await user.getCommunes({ where: { id } }))[0];
+  if (!user.validatePass(password)) {
+    throw new RequestError(
+      'Invalid password',
+      'The password provided was incorrect',
+      401
+    );
+  }
+  const account = await user.findCommunalByPk(id);
   if (!account) return res.json({ success: true });
   try {
     await user.removeCommune(account);
