@@ -135,16 +135,21 @@ router.delete('/:accountType(communals|personals)/:id(\\d+)/', restoreOrReject, 
   }
 }));
 
-router.post('/personals/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, body } = req;
-  const account = { ...(await user.createPersonal(body)).dataValues, Items: [] };
-  res.json({ account });
-}));
-
-router.post('/communals/', restoreOrReject, asyncHandler(async (req, res) => {
-  const { user, body } = req;
-  const account = { ...(await user.createCommune(body)).dataValues, Items: [] };
-  res.json({ account });
+router.post('/:accountType(personals|communals)/', restoreOrReject, asyncHandler(async (req, res) => {
+  const { user, body, params: { accountType } } = req;
+  const createFuncName = `create${accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)}`;
+  try {
+    const account = { ...(await user[createFuncName](body)).dataValues, Items: [] };
+    res.json({ account });
+  } catch (err) {
+    console.error(err);
+    console.error(err.toString());
+    throw new RequestError(
+      'Account creation failed',
+      'Something went wrong. Please refresh the page and try again',
+      500
+    );
+  }
 }));
 
 export default router;
