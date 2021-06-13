@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import CurrentAccount from './CurrentAccount';
 import NewAccountForm from './NewAccount';
 import AccountListEntry from './AccountListEntry';
+import { GetAllCommunals, GetAllPersonals } from '../../store/accounts/asyncs';
 import {
-  GetAllCommunals,
-  GetAllPersonals,
   SelectAll,
   SelectCommunals,
   SelectPersonals,
   UnloadAccounts
-} from '../../store/accounts/actions';
+} from '../../store/accounts/syncs';
 import { SetCurrentModal } from '../../store/modal';
 import { ShowModal } from '../../store/UX';
 
