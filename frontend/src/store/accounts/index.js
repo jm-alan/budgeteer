@@ -33,17 +33,14 @@ export default function reducer (
       return { ...state, personals, list };
     case types.ADD_COMMUNAL:
       return { ...state, communals, list };
-    case types.ADD_PERSONAL_ITEM:
-      state.personals[item.accountId].Items.push(item);
+    case types.ADD_ITEM:
+      state.current.Items[item.id] = item;
       return {
         ...state,
-        current: { ...state.personals[item.accountId] }
-      };
-    case types.ADD_COMMUNAL_ITEM:
-      state.communals[item.accountId].Items.push(item);
-      return {
-        ...state,
-        current: { ...state.communals[item.accountId] }
+        current: {
+          ...state.current,
+          Items: { ...state.current.Items }
+        }
       };
     case types.DELETE_PERSONAL:
       delete state.personals[id];
@@ -58,6 +55,15 @@ export default function reducer (
         ...state,
         communals: { ...state.communals },
         list: returnAllOrOne(state.selected, state.personals, state.communals)
+      };
+    case types.DELETE_ITEM:
+      delete state.current.Items[id];
+      return {
+        ...state,
+        current: {
+          ...state.current,
+          Items: { ...state.current.Items }
+        }
       };
     case types.SELECT_ALL:
       return {
