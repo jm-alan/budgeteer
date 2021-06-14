@@ -38,7 +38,7 @@ export default function Accounts () {
 
   return (
     <div className='container accounts-page'>
-      <div className='subcontainer accounts-list sidebar'>
+      <div className='subcontainer accounts-list-sidebar'>
         <div className='subcontainer accounts-list-select'>
           <button
             className='account-select'
@@ -65,7 +65,7 @@ export default function Accounts () {
             + New
           </button>
         </div>
-        <div className='subcontainer accounts-list'>
+        <div className='subcontainer list'>
           {list.map((account, idx) => (
             <AccountListEntry key={idx} account={account} />
           ))}
