@@ -36,7 +36,7 @@ export default function CurrentAccount () {
         </div>
       </div>
       <div className='subcontainer current-account-transaction-items'>
-        {current.Items.map((item, idx) => (
+        {Object.values(current.Items).map((item, idx) => (
           <TransactionItem key={idx} item={item} />
         ))}
       </div>
