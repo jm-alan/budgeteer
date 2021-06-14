@@ -23,11 +23,7 @@ module.exports = (sequelize, { DataTypes, fn }) => {
     }
 
     async findCommunalByPk (id) {
-      return (await this.getCommunes({ where: { id } }))[0] ?? null;
-    }
-
-    async createCommunal (options) {
-      return await this.createCommune(options);
+      return (await this.getCommunals({ where: { id } }))[0] ?? null;
     }
 
     static async LogIn ({ identification, password }) {
@@ -63,10 +59,10 @@ module.exports = (sequelize, { DataTypes, fn }) => {
       [models.Personal, models.Item].forEach(model => {
         User.hasMany(model, { foreignKey: 'ownerId' });
       });
-      User.belongsToMany(models.Commune, {
+      User.belongsToMany(models.Communal, {
         through: models.RosterEntry,
         foreignKey: 'userId',
-        otherKey: 'communeId'
+        otherKey: 'communalId'
       });
     }
   }
