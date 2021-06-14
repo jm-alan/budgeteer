@@ -35,6 +35,9 @@ export default function reducer (
       return { ...state, communals, list };
     case types.ADD_ITEM:
       state.current.Items[item.id] = item;
+      if (state.current.balance !== undefined) {
+        state.personals[state.current.id].Items[item.id] = item;
+      } else state.communals[state.current.id].Items[item.id] = item;
       return {
         ...state,
         current: {
@@ -58,6 +61,9 @@ export default function reducer (
       };
     case types.DELETE_ITEM:
       delete state.current.Items[id];
+      if (state.current.balance !== undefined) {
+        delete state.personals[state.current.id].Items[id];
+      } else delete state.communals[state.current.id].Items[id];
       return {
         ...state,
         current: {
