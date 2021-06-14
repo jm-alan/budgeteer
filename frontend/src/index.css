@@ -8,6 +8,8 @@ body {
 
 .site-visual-organizer {
   position: fixed;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   min-width: 360px;
 }
@@ -51,14 +53,14 @@ nav.grow > .nav-sliding-container {
   align-items: center;
   position: relative;
   width: 150px;
-  margin: .75em 0;
+  margin: .75rem 0;
 }
 
 .highlighter {
   position: absolute;
   right: 130px;
   background-color: white;
-  height: 3em;
+  height: 3rem;
   width: 150px;
   transition: right 0.2s;
   z-index: 1;
@@ -69,8 +71,8 @@ nav.grow > .nav-sliding-container {
   width: 150px;
   border: none;
   background-color: unset;
-  padding: 1.25em 0;
-  font-size: 1em;
+  padding: 1.25rem 0;
+  font-size: 1rem;
 }
 
 .nav-sliding-container > .highlighter-wrapper > *:hover ~ .highlighter {
