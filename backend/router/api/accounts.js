@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler';
 import restoreOrReject from '../../utils/restoreOrReject';
 import { RequestError } from '../../RequestError';
 import { Item } from '../../db/models';
+import { ValidationError } from 'sequelize/types';
 
 const router = Router();
 
@@ -111,6 +112,7 @@ router.post('/:accountType(personals|communals)/', restoreOrReject, asyncHandler
     const account = { ...(await user[createFuncName](body)).dataValues, Items: {} };
     res.json({ account });
   } catch (err) {
+    if (err instanceof ValidationError) throw err;
     console.error(err);
     console.error(err.toString());
     throw new RequestError(
