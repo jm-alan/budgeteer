@@ -31,14 +31,14 @@ export const CreateCommunal = newAccount => async dispatch => {
 
 export const CreatePersonalItem = (id, newItem) => async dispatch => {
   const { item } = await csrfetch.post(`/api/accounts/personals/${id}/items/`, newItem);
-  dispatch(syncs.addPersonalItem(item));
+  dispatch(syncs.addItem(item));
   dispatch(SetCurrentModal(null));
   dispatch(HideModal());
 };
 
 export const CreateCommunalItem = (id, newItem) => async dispatch => {
   const { item } = await csrfetch.post(`/api/accounts/communals/${id}/items/`, newItem);
-  dispatch(syncs.addCommunalItem(item));
+  dispatch(syncs.addItem(item));
   dispatch(SetCurrentModal(null));
   dispatch(HideModal());
 };
@@ -65,12 +65,12 @@ export const DeleteCommunal = (id, password) => async dispatch => {
 
 export const DeletePersonalItem = (accountId, itemId) => async dispatch => {
   const { success } = await csrfetch.delete(`/api/accounts/personals/${accountId}/items/${itemId}/`);
-  if (success) dispatch(syncs.deletePersonalItem(accountId, itemId));
+  if (success) dispatch(syncs.deleteItem(itemId));
   else throw new Error('Something went wrong. Please refresh the page and try again.');
 };
 
 export const DeleteCommunalItem = (accountId, itemId) => async dispatch => {
   const { success } = await csrfetch.delete(`/api/accounts/communals/${accountId}/items/${itemId}/`);
-  if (success) dispatch(syncs.deleteCommunalItem(accountId, itemId));
+  if (success) dispatch(syncs.deleteItem(itemId));
   else throw new Error('Something went wrong. Please refresh the page and try again.');
 };

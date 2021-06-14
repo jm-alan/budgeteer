@@ -20,13 +20,8 @@ export const addCommunal = account => ({
   account
 });
 
-export const addPersonalItem = item => ({
-  type: types.ADD_PERSONAL_ITEM,
-  item
-});
-
-export const addCommunalItem = item => ({
-  type: types.ADD_COMMUNAL_ITEM,
+export const addItem = item => ({
+  type: types.ADD_ITEM,
   item
 });
 
@@ -40,16 +35,9 @@ export const deleteCommunal = id => ({
   id
 });
 
-export const deletePersonalItem = (accountId, itemId) => ({
-  type: types.DELETE_PERSONAL_ITEM,
-  accountId,
-  itemId
-});
-
-export const deleteCommunalItem = (accountId, itemId) => ({
-  type: types.DELETE_COMMUNAL_ITEM,
-  accountId,
-  itemId
+export const deleteItem = id => ({
+  type: types.DELETE_ITEM,
+  id
 });
 
 export const SetCurrentAccount = current => ({
