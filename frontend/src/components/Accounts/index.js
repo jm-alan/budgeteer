@@ -65,9 +65,11 @@ export default function Accounts () {
             + New
           </button>
         </div>
-        {list.map((account, idx) => (
-          <AccountListEntry key={idx} account={account} />
-        ))}
+        <div className='subcontainer accounts-list'>
+          {list.map((account, idx) => (
+            <AccountListEntry key={idx} account={account} />
+          ))}
+        </div>
       </div>
       <CurrentAccount />
     </div>
