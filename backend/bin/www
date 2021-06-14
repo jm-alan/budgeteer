@@ -4,7 +4,7 @@ const { ports } = require('../config');
 const apps = require('../app');
 const db = require('../db/models');
 
-const init = async (port, app) => {
+const initApp = async (port, app) => {
   try {
     await db.sequelize.authenticate();
     app.listen(port, () => console.log(`App:${port} UP successful.`));
@@ -15,4 +15,9 @@ const init = async (port, app) => {
   }
 };
 
-for (const port of ports) init(port, apps[port]);
+const syncDB = async () => await db.sequelize.sync();
+
+(async () => {
+  for (const port of ports) await initApp(port, apps[port]);
+  await syncDB();
+})();
