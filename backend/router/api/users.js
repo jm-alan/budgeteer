@@ -32,7 +32,7 @@ router.get('/me/personals/', restoreOrReject, asyncHanlder(async (req, res) => {
 
 router.get('/me/communals/', restoreOrReject, asyncHanlder(async (req, res) => {
   const { user } = req;
-  const accountsArray = await user.getCommunes();
+  const accountsArray = await user.getCommunals();
   const accounts = {};
   for (const account of accountsArray) accounts[account.id] = { ...account.dataValues, Items: await account.getItems() };
   res.json({ accounts });
