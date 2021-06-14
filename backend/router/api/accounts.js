@@ -15,7 +15,7 @@ router.delete(
     const findFuncName = `find${
       accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)
     }ByPk`;
-    const account = user[findFuncName](accountId);
+    const account = await user[findFuncName](accountId);
     if (!account) {
       throw new RequestError(
         'Account not found',
@@ -23,8 +23,8 @@ router.delete(
         404
       );
     }
-    const item = Item.findByPk(itemId);
-    if (!item || !account.hasItem(item) || !user.hasItem(item)) {
+    const item = await Item.findByPk(itemId);
+    if (!item || !(await account.hasItem(item)) || !(await user.hasItem(item))) {
       throw new RequestError(
         'Transaction not found',
         'A transaction item with that ID was not found on this account',
