@@ -108,7 +108,7 @@ router.post('/:accountType(personals|communals)/', restoreOrReject, asyncHandler
   const { user, body, params: { accountType } } = req;
   const createFuncName = `create${accountType.upperCaseFirst().truncateUntil(/^(Personal|Communal)$/)}`;
   try {
-    const account = { ...(await user[createFuncName](body)).dataValues, Items: [] };
+    const account = { ...(await user[createFuncName](body)).dataValues, Items: {} };
     res.json({ account });
   } catch (err) {
     console.error(err);
