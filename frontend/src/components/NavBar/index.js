@@ -57,50 +57,28 @@ export default function NavBar () {
         {user
           ? (
             <>
-              <div className='highlighter-wrapper'>
-                <Link to='/'>
-                  <button>
-                    Home
-                  </button>
-                </Link>
-                <div className='highlighter' />
-              </div>
-              <div className='highlighter-wrapper'>
-                <Link to='/accounts/'>
-                  <button>
-                    My Accounts
-                  </button>
-                </Link>
-                <div className='highlighter' />
-              </div>
-              <div className='highlighter-wrapper'>
-                <button onClick={logOut}>
-                  Log Out
-                </button>
-                <div className='highlighter' />
-              </div>
+              <Highlighter type='link' to='/'>
+                Home
+              </Highlighter>
+              <Highlighter type='link' to='/accounts/'>
+                My Accounts
+              </Highlighter>
+              <Highlighter type='button' onClick={logOut}>
+                Log Out
+              </Highlighter>
             </>
             )
           : (
             <>
-              <div className='highlighter-wrapper'>
-                <button
-                  className='navigation signup'
-                  onClick={popSignup}
-                >
-                  Sign Up
-                </button>
-                <div className='highlighter' />
-              </div>
-              <div className='highlighter-wrapper'>
-                <button
-                  className='navigation login'
-                  onClick={popLogin}
-                >
-                  Log In
-                </button>
-                <div className='highlighter' />
-              </div>
+              <Highlighter type='button' onClick={popSignup}>
+                Sign Up
+              </Highlighter>
+              <Highlighter type='button' onClick={popLogin}>
+                Log In
+              </Highlighter>
+              <Highlighter type='button' onClick={demoLogin}>
+                Demo User
+              </Highlighter>
             </>
             )}
       </div>
