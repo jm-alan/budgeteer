@@ -95,7 +95,7 @@ router.delete('/:accountType(communals|personals)/:id(\\d+)/', restoreOrReject, 
     );
   }
   try {
-    if (account.balance === undefined) await user.removeCommune(account);
+    if (account.balance === undefined) await user.removeCommunal(account);
     else await account.destroy();
     res.json({ success: true });
   } catch (err) {
