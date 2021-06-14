@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
+import { ValidationError } from 'sequelize';
 
 import restoreOrReject from '../../utils/restoreOrReject';
 import { RequestError } from '../../RequestError';
 import { Item } from '../../db/models';
-import { ValidationError } from 'sequelize/types';
 
 const router = Router();
 
