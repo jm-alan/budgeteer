@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
+import Highlighter from './Highlighter';
 import SignUpForm from '../Forms/SignUp';
 import LogInForm from '../Forms/LogIn';
 import { HideBar, ShowModal, SideBar } from '../../store/UX';
 import { SetCurrentModal } from '../../store/modal';
-import { LogOut } from '../../store/session';
+import { LogIn, LogOut } from '../../store/session';
 
 export default function NavBar () {
   const dispatch = useDispatch();
@@ -26,6 +26,11 @@ export default function NavBar () {
     dispatch(SetCurrentModal(LogInForm));
     dispatch(ShowModal());
   };
+
+  const demoLogin = () => dispatch(LogIn({
+    identification: 'demo@budgeteer.io',
+    password: 'password'
+  }));
 
   const logOut = () => dispatch(LogOut());
 
