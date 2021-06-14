@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, ValidationErrorItem, ValidationError
 } = require('sequelize');
 module.exports = (sequelize, { DataTypes, fn }) => {
   class Communal extends Model {
@@ -21,7 +21,18 @@ module.exports = (sequelize, { DataTypes, fn }) => {
     }
   }
   Communal.init({
-    name: DataTypes.STRING(100),
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      set (value) {
+        const errors = [];
+        if (value.match(/^\s/)) errors.push(new ValidationErrorItem('Account name cannot begin with a space'));
+        if (!value.match(/^[a-zA-Z0-9-_ ]+$/)) errors.push(new ValidationErrorItem('Account name may only contain the letters A-Z, the numbers 0-9, hyphens, underscores, or spaces..'));
+        if (!(value.length && value.length <= 100)) errors.push(new ValidationErrorItem('Account name must be between 1 and 100 characters'));
+        if (errors.length) throw new ValidationError('Invalid account name', errors);
+        this.setDataValue('name', value);
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: fn('now')
