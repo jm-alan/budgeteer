@@ -8,7 +8,7 @@ import { Item } from '../../db/models';
 const router = Router();
 
 router.delete(
-  '/:accountType(communals|personals)/:accountId(\\d+)/items/:itemId/',
+  '/:accountType(communals|personals)/:accountId(\\d+)/items/:itemId(\\d+)/',
   restoreOrReject,
   asyncHandler(async (req, res) => {
     const { user, params: { accountId, itemId, accountType } } = req;

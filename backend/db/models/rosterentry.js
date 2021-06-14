@@ -2,19 +2,28 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, { DataTypes, fn }) => {
   class RosterEntry extends Model {
     static associate (models) {
       RosterEntry.belongsTo(models.User, { foreignKey: 'userId' });
-      RosterEntry.belongsTo(models.Commune, { foreignKey: 'communeId' });
+      RosterEntry.belongsTo(models.Commune, { foreignKey: 'communalId' });
     }
   }
   RosterEntry.init({
     communeId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: fn('now')
+    }
   }, {
     sequelize,
-    modelName: 'RosterEntry'
+    modelName: 'RosterEntry',
+    tableName: 'RosterEntries'
   });
   return RosterEntry;
 };

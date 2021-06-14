@@ -7,7 +7,7 @@ const {
 } = require('sequelize');
 const { hashSync, compareSync } = require('bcryptjs');
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, { DataTypes, fn }) => {
   class User extends Model {
     validatePass (password) {
       return !!password && compareSync(password, this.password);
@@ -113,6 +113,14 @@ module.exports = (sequelize, DataTypes) => {
           throw new ValidationError('Invalid password.', errors);
         } else this.setDataValue('password', hashSync(val));
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: fn('now')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: fn('now')
     }
   }, {
     sequelize,
