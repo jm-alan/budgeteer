@@ -6,7 +6,7 @@ module.exports = (sequelize, { DataTypes, fn }) => {
   class RosterEntry extends Model {
     static associate (models) {
       RosterEntry.belongsTo(models.User, { foreignKey: 'userId' });
-      RosterEntry.belongsTo(models.Commune, { foreignKey: 'communalId' });
+      RosterEntry.belongsTo(models.Communal, { foreignKey: 'communalId' });
     }
   }
   RosterEntry.init({
@@ -22,8 +22,7 @@ module.exports = (sequelize, { DataTypes, fn }) => {
     }
   }, {
     sequelize,
-    modelName: 'RosterEntry',
-    tableName: 'RosterEntries'
+    modelName: 'RosterEntry'
   });
   return RosterEntry;
 };

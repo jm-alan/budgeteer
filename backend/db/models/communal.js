@@ -32,8 +32,7 @@ module.exports = (sequelize, { DataTypes, fn }) => {
     }
   }, {
     sequelize,
-    modelName: 'Communal',
-    tableName: 'Communals'
+    modelName: 'Communal'
   });
   return Communal;
 };
