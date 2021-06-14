@@ -21,7 +21,7 @@
 }
 
 .modal-content :is(.form-input, .form-button) {
-  height: 3em;
+  height: 3rem;
   text-align: center;
 }
 
