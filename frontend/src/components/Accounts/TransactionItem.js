@@ -21,7 +21,7 @@ export default function TransactionItem ({ item }) {
         {item.name}
       </div>
       <div className='transaction-item-amount'>
-        {item.amount}
+        ${item.amount}
       </div>
       <button
         className='entry-delete'
