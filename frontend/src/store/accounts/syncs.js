@@ -40,6 +40,18 @@ export const deleteCommunal = id => ({
   id
 });
 
+export const deletePersonalItem = (accountId, itemId) => ({
+  type: types.DELETE_PERSONAL_ITEM,
+  accountId,
+  itemId
+});
+
+export const deleteCommunalItem = (accountId, itemId) => ({
+  type: types.DELETE_COMMUNAL_ITEM,
+  accountId,
+  itemId
+});
+
 export const SetCurrentAccount = current => ({
   type: types.CURRENT,
   current
